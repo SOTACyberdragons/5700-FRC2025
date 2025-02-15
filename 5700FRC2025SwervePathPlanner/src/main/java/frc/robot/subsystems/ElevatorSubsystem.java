@@ -16,43 +16,49 @@ import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new ElevatorSubsystem. */
-  private TalonFX elevatorMotor1 = new TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR_1_ID);
-  private TalonFX elevatorMotor2 = new TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR_2_ID);
+  private TalonFX elevatorMasterMotor = new TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR_MASTER_ID);
+  private TalonFX elevatorFollowMotor = new TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR_FOLLOW_ID);
 
   private MotionMagicVoltage elevatorMM = new MotionMagicVoltage(0);
 
   public ElevatorSubsystem() {
-    configElevatorMotor();
+    configElevatorMotors();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    //System.out.println("Elevator Position: " + getElevatorPosition());
   }
 
-  public void configElevatorMotor() {
-    elevatorMotor1.getConfigurator().apply(new TalonFXConfiguration());
-    elevatorMotor1.getConfigurator().apply(CTREConfigs.elevatorFXConfig);
+  public void configElevatorMotors() {
+    elevatorMasterMotor.getConfigurator().apply(new TalonFXConfiguration());
+    elevatorMasterMotor.getConfigurator().apply(CTREConfigs.elevatorFXConfig);
 
-    elevatorMotor2.getConfigurator().apply(new TalonFXConfiguration());
-    elevatorMotor2.getConfigurator().apply(CTREConfigs.elevatorFXConfig);
+    elevatorFollowMotor.getConfigurator().apply(new TalonFXConfiguration());
+    elevatorFollowMotor.getConfigurator().apply(CTREConfigs.elevatorFXConfig);
 
-    elevatorMotor2.setControl(new Follower(elevatorMotor1.getDeviceID(), true));
+    elevatorFollowMotor.setControl(new Follower(elevatorMasterMotor.getDeviceID(), true));
 
     resetElevatorEncoder();
   }
 
   public void resetElevatorEncoder() {
-    elevatorMotor1.setPosition(0);
-    elevatorMotor2.setPosition(0);
+    elevatorMasterMotor.setPosition(0);
+    elevatorFollowMotor.setPosition(0);
   }
 
   public void setElevatorPosition(double setpoint) {
     elevatorMM.Position = setpoint;
-    elevatorMotor1.setControl(elevatorMM.withPosition(setpoint));
+    elevatorMasterMotor.setControl(elevatorMM.withPosition(setpoint));
   }
   
   public double getElevatorPosition() {
-    return elevatorMotor1.getPosition().getValueAsDouble();
+    return elevatorMasterMotor.getPosition().getValueAsDouble();
+  }
+
+  public void stopElevator() {
+    elevatorMasterMotor.set(0);
   }
 }

@@ -24,17 +24,20 @@ public class ElevatorCommand extends Command {
   @Override
   public void initialize() {
     System.out.println("elevator cmd");
+    elevatorSubsystem.setElevatorPosition(setpoint);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevatorSubsystem.setElevatorPosition(setpoint);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    elevatorSubsystem.stopElevator();
+  }
 
   // Returns true when the command should end.
   @Override

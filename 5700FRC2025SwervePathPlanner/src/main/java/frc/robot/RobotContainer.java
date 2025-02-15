@@ -51,6 +51,8 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
+        /* Drivetrain buttons */
+
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
@@ -85,6 +87,11 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+
+
+        /* Elevator */
+        
     }
 
     public Command getAutonomousCommand() {
