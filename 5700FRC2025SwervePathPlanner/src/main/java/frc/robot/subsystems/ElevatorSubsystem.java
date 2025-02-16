@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -33,25 +34,25 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void configElevatorMotors() {
-    elevatorMasterMotor.getConfigurator().apply(new TalonFXConfiguration());
-    elevatorMasterMotor.getConfigurator().apply(CTREConfigs.elevatorFXConfig);
+    elevatorMasterMotor.getConfigurator().apply(new TalonFXConfiguration()); //this reset to default
+    elevatorMasterMotor.getConfigurator().apply(CTREConfigs.elevatorFXConfig); //elevator config
 
     elevatorFollowMotor.getConfigurator().apply(new TalonFXConfiguration());
     elevatorFollowMotor.getConfigurator().apply(CTREConfigs.elevatorFXConfig);
 
     elevatorFollowMotor.setControl(new Follower(elevatorMasterMotor.getDeviceID(), true));
 
-    resetElevatorEncoder();
+    resetElevator();
   }
 
-  public void resetElevatorEncoder() {
+  public void resetElevator() { 
     elevatorMasterMotor.setPosition(0);
     elevatorFollowMotor.setPosition(0);
   }
 
   public void setElevatorPosition(double setpoint) {
     elevatorMM.Position = setpoint;
-    elevatorMasterMotor.setControl(elevatorMM.withPosition(setpoint));
+    elevatorMasterMotor.setControl(elevatorMM.withPosition(setpoint).withSlot(0));
   }
   
   public double getElevatorPosition() {
@@ -60,5 +61,13 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void stopElevator() {
     elevatorMasterMotor.set(0);
+    elevatorFollowMotor.set(0);
   }
+
+  public void turnOffElevator(){
+    elevatorMasterMotor.setControl(new NeutralOut()); 
+    elevatorFollowMotor.setControl(new NeutralOut()); 
+  }
+ 
+
 }

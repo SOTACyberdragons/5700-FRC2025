@@ -17,9 +17,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
+import frc.robot.commands.ElevatorCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -39,6 +41,9 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    /* Elevator */
+    public final ElevatorSubsystem elevator = new ElevatorSubsystem();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -91,6 +96,8 @@ public class RobotContainer {
 
 
         /* Elevator */
+
+        joystick.x().whileTrue(new ElevatorCommand(elevator, ElevatorSelector.L1));
         
     }
 

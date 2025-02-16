@@ -4,6 +4,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class Constants {
+    
     public static final class ElevatorConstants {
         /* Motor IDs */
         // TO-DO: set ids for motor contorllers
@@ -15,19 +16,38 @@ public class Constants {
         public static final NeutralModeValue ELEVATOR_NEUTRAL_MODE = NeutralModeValue.Brake;
 
         /* PID + FF Constants */
-        public static final double ELEVATOR_G = 0;
-        public static final double ELEVATOR_S = 0;
-        public static final double ELEVATOR_V = 0;
-        public static final double ELEVATOR_A = 0;
+        public static final double ELEVATOR_G = 0; //tune until elevator holds postition without input
+        public static final double ELEVATOR_S = 0; //overcome static friction increase until threashold
+        public static final double ELEVATOR_V = 0; //velocity using tuner check steady state velocity and voltage kv = voltage/velocity
+        public static final double ELEVATOR_A = 0; //kA = (Voltage - kS - kV * Velocity) / Acceleration
         public static final double ELEVATOR_P = 0;
         public static final double ELEVATOR_I = 0;
         public static final double ELEVATOR_D = 0;
+
+        /* MM Config Contants */
+        public static final double ELEVATOR_MM_C = 5; //Cruise
+        public static final double ELEVATOR_MM_A = 10; //Acceleration
+        public static final double ELEVATOR_MM_J = 100; //Jerk
+
+        /* Elevator Hall Effect 0 point*/
+
+        public static final double ELEVATOR_Hall_Zero = 0; //0 point for elevator
+
 
         /* Heights */
         public static final double ELEVATOR_L1_HEIGHT = 0;
         public static final double ELEVATOR_L2_HEIGHT = 0;
         public static final double ELEVATOR_L3_HEIGHT = 0;
         public static final double ELEVATOR_L4_HEIGHT = 0;
+
+        public enum ElevatorSelector {
+            RESET,
+            L1,
+            L2,
+            L3,
+            L4
+        }
+
     }
 
 

@@ -3,6 +3,10 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.ForwardLimitSourceValue;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import static edu.wpi.first.units.Units.*;
 
 public class CTREConfigs {
     public static TalonFXConfiguration elevatorFXConfig = new TalonFXConfiguration();
@@ -32,8 +36,19 @@ public class CTREConfigs {
 
         /* Elevator Motion Magic */
         var elevatorMotionMagic = elevatorFXConfig.MotionMagic;
-        elevatorMotionMagic.MotionMagicCruiseVelocity = 10000;
-        elevatorMotionMagic.MotionMagicAcceleration = 5000;
+        elevatorMotionMagic.withMotionMagicCruiseVelocity(RotationsPerSecond.of(Constants.ElevatorConstants.ELEVATOR_MM_C))
+                           .withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(Constants.ElevatorConstants.ELEVATOR_MM_A))
+                           .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(Constants.ElevatorConstants.ELEVATOR_MM_J));
+        
+        /* motor rotation to output of elevator*/
+        var elevatorfdb = elevatorFXConfig.Feedback; // 10:1 ratio
+        elevatorfdb.SensorToMechanismRatio = 10;
+        
+        /*Hall Effect Config */
+        var elevatorHallEffect = elevatorFXConfig.HardwareLimitSwitch;
+        elevatorHallEffect.ForwardLimitSource = ForwardLimitSourceValue.LimitSwitchPin;
+        elevatorHallEffect.ForwardLimitAutosetPositionValue = Constants.ElevatorConstants.ELEVATOR_Hall_Zero;
+        elevatorHallEffect.ForwardLimitAutosetPositionEnable = true;
 
 
     }

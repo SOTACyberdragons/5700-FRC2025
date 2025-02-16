@@ -5,18 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
+import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorCommand extends Command {
   private ElevatorSubsystem elevatorSubsystem;
-  private double setpoint;
+  private final ElevatorSelector levelChoice;
 
   /** Creates a new ElevatorCommand. */
-  public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, double setpoint) {
+  public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, ElevatorSelector levelChoice) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.elevatorSubsystem = elevatorSubsystem;
-    this.setpoint = setpoint;
+    this.levelChoice = levelChoice;
     addRequirements(elevatorSubsystem);
   }
 
@@ -24,12 +26,24 @@ public class ElevatorCommand extends Command {
   @Override
   public void initialize() {
     System.out.println("elevator cmd");
-    elevatorSubsystem.setElevatorPosition(setpoint);
+    switch (levelChoice) {
+      case L1:
+      elevatorSubsystem.setElevatorPosition(Constants.ElevatorConstants.ELEVATOR_L1_HEIGHT);
+          break;
+      case L2:
+      //finish this
+          break;
+      case L3:
+          break;
+      case L4:
+          break; 
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
     
   }
 
@@ -37,6 +51,8 @@ public class ElevatorCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     elevatorSubsystem.stopElevator();
+    //elevatorSubsystem.resetElevator();
+
   }
 
   // Returns true when the command should end.
