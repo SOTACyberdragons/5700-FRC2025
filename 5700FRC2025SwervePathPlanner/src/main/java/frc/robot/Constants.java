@@ -41,11 +41,21 @@ public class Constants {
         public static final double ELEVATOR_L4_HEIGHT = 0;
 
         public enum ElevatorSelector {
-            RESET,
-            L1,
-            L2,
-            L3,
-            L4
+            RESET(ELEVATOR_Hall_Zero),
+            L1(ELEVATOR_L1_HEIGHT),
+            L2(ELEVATOR_L2_HEIGHT),
+            L3(ELEVATOR_L3_HEIGHT),
+            L4(ELEVATOR_L4_HEIGHT);
+
+            private double height;
+
+            private ElevatorSelector(double height) {
+                this.height = height;
+            }
+
+            public double getHeight() {
+                return height;
+            }
         }
 
     }

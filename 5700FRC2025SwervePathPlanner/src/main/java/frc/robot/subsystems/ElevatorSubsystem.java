@@ -14,6 +14,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.CTREConfigs;
 import frc.robot.Constants;
+import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 
 public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new ElevatorSubsystem. */
@@ -50,7 +51,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorFollowMotor.setPosition(0);
   }
 
-  public void setElevatorPosition(double setpoint) {
+  public void setElevatorPosition(ElevatorSelector levelChoice) {
+    double setpoint = levelChoice.getHeight();
     elevatorMM.Position = setpoint;
     elevatorMasterMotor.setControl(elevatorMM.withPosition(setpoint).withSlot(0));
   }

@@ -26,18 +26,7 @@ public class ElevatorCommand extends Command {
   @Override
   public void initialize() {
     System.out.println("elevator cmd");
-    switch (levelChoice) {
-      case L1:
-      elevatorSubsystem.setElevatorPosition(Constants.ElevatorConstants.ELEVATOR_L1_HEIGHT);
-          break;
-      case L2:
-      //finish this
-          break;
-      case L3:
-          break;
-      case L4:
-          break; 
-    }
+    elevatorSubsystem.setElevatorPosition(levelChoice);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
