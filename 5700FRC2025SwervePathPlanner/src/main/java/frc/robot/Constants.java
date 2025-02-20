@@ -24,7 +24,7 @@ public class Constants {
         public static final double ELEVATOR_I = 0;
         public static final double ELEVATOR_D = 0;
 
-        /* MM Config Contants */
+        /* MM Config Constants */
         public static final double ELEVATOR_MM_C = 5; //Cruise
         public static final double ELEVATOR_MM_A = 10; //Acceleration
         public static final double ELEVATOR_MM_J = 100; //Jerk

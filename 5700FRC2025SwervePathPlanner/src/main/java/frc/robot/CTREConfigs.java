@@ -51,6 +51,32 @@ public class CTREConfigs {
         elevatorHallEffect.ForwardLimitAutosetPositionValue = Constants.ElevatorConstants.ELEVATOR_Hall_Zero;
         elevatorHallEffect.ForwardLimitAutosetPositionEnable = true;
 
+       /* Arm Motor */
+       var armOutput = armFXConfig.MotorOutput;
+       armOutput.Inverted = Constants.ArmConstants.ARM_INVERTED;
+       armOutput.NeutralMode = Constants.ArmConstants.ARM_NEUTRAL_MODE;
 
+       /* Arm Current Limits */
+       var armCurrentLimits = armFXConfig.CurrentLimits;
+       armCurrentLimits.SupplyCurrentLimitEnable = true;
+       armCurrentLimits.SupplyCurrentLimit = 60;
+       armCurrentLimits.SupplyCurrentLowerLimit = 40;
+       armCurrentLimits.SupplyCurrentLowerTime = 0.5;
+       
+       /* Arm PID/FF Gains */
+       var armSlot0 = armFXConfig.Slot0;
+       armSlot0.kG = Constants.ArmConstants.ARM_G;
+       armSlot0.kS = Constants.ArmConstants.ARM_S;
+       armSlot0.kV = Constants.ArmConstants.ARM_V;
+       armSlot0.kA = Constants.ArmConstants.ARM_A;
+       armSlot0.kP = Constants.ArmConstants.ARM_P;
+       armSlot0.kI = Constants.ArmConstants.ARM_I;
+       armSlot0.kD = Constants.ArmConstants.ARM_D;
+       
+       /* Arm Motion Magic */
+       var armMotionMagic = armFXConfig.MotionMagic;
+       armMotionMagic.withMotionMagicCruiseVelocity(RotationsPerSecond.of(Constants.ElevatorConstants.ELEVATOR_MM_C))
+       .withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(Constants.ElevatorConstants.ELEVATOR_MM_A))
+       .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(Constants.ElevatorConstants.ELEVATOR_MM_J));
     }
 }
