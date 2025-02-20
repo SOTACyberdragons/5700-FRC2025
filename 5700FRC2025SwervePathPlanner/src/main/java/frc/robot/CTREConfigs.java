@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.*;
 
 public class CTREConfigs {
     public static TalonFXConfiguration elevatorFXConfig = new TalonFXConfiguration();
+    public static TalonFXConfiguration armFXConfig = new TalonFXConfiguration();
 
     public CTREConfigs() {
         /* Elevator Motor */

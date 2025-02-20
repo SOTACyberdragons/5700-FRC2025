@@ -60,5 +60,59 @@ public class Constants {
 
     }
 
+    public static final class ArmConstants {
+        /* Motor IDs */
+        // TO-DO: set ids for motor contorllers
+        public static final int ARM_MOTOR_MASTER_ID = 14; 
+        public static final int ARM_MOTOR_FOLLOW_ID = 15;
 
+        /* Invert + Neutral Mode */
+        public static final InvertedValue ARM_INVERTED = InvertedValue.Clockwise_Positive; // TO-DO: figure out directions
+        public static final NeutralModeValue ARM_NEUTRAL_MODE = NeutralModeValue.Brake;
+
+        /* PID + FF Constants */
+        public static final double ARM_G = 0; //tune until elevator holds postition without input
+        public static final double ARM_S = 0; //overcome static friction increase until threashold
+        public static final double ARM_V = 0; //velocity using tuner check steady state velocity and voltage kv = voltage/velocity
+        public static final double ARM_A = 0; //kA = (Voltage - kS - kV * Velocity) / Acceleration
+        public static final double ARM_P = 0;
+        public static final double ARM_I = 0;
+        public static final double ARM_D = 0;
+
+        /* MM Config Contants */
+        public static final double ELEVATOR_MM_C = 5; //Cruise
+        public static final double ELEVATOR_MM_A = 10; //Acceleration
+        public static final double ELEVATOR_MM_J = 100; //Jerk
+
+        /* Elevator Hall Effect 0 point*/
+
+        public static final double ELEVATOR_Hall_Zero = 0; //0 point for elevator
+
+
+        /* Heights */
+        public static final double ELEVATOR_L1_HEIGHT = 0;
+        public static final double ELEVATOR_L2_HEIGHT = 0;
+        public static final double ELEVATOR_L3_HEIGHT = 0;
+        public static final double ELEVATOR_L4_HEIGHT = 0;
+        public static final int ARM_ENCODER_CHANNELA = 0;
+        public static final int ARM_ENCODER_CHANNELB = 0;
+
+        public enum ElevatorSelector {
+            RESET(0),
+            L1(ELEVATOR_L1_HEIGHT),
+            L2(ELEVATOR_L2_HEIGHT),
+            L3(ELEVATOR_L3_HEIGHT),
+            L4(ELEVATOR_L4_HEIGHT);
+
+            private double height;
+
+            private ElevatorSelector(double height) {
+                this.height = height;
+            }
+
+            public double getHeight() {
+                return height;
+            }
+        }        
+    }
 }
