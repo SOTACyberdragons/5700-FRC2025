@@ -68,11 +68,12 @@ public class RobotContainer {
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
-
+        /* 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         joystick.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         ));
+        */
 
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
@@ -97,7 +98,10 @@ public class RobotContainer {
 
         /* Elevator */
 
-        joystick.x().whileTrue(new ElevatorCommand(elevator, ElevatorSelector.L1));
+        joystick.x().whileTrue(new ElevatorCommand(elevator, 1));
+        joystick.y().whileTrue(new ElevatorCommand(elevator, 5));
+        joystick.a().whileTrue(new ElevatorCommand(elevator, 6));
+        joystick.b().whileTrue(new ElevatorCommand(elevator, 2));
         
     }
 

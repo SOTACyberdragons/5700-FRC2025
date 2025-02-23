@@ -9,19 +9,23 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.CTREConfigs;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 
 public class ElevatorSubsystem extends SubsystemBase {
+
+
   /** Creates a new ElevatorSubsystem. */
-  private TalonFX elevatorMasterMotor = new TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR_MASTER_ID);
-  private TalonFX elevatorFollowMotor = new TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR_FOLLOW_ID);
+  private TalonFX elevatorMasterMotor = new TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR_MASTER_ID, "rio");
+  private TalonFX elevatorFollowMotor = new TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR_FOLLOW_ID,"rio");
 
   private MotionMagicVoltage elevatorMM = new MotionMagicVoltage(0);
+  private PositionVoltage elevatorPV = new PositionVoltage(0);
 
   public ElevatorSubsystem() {
     configElevatorMotors();
@@ -35,15 +39,13 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void configElevatorMotors() {
-    elevatorMasterMotor.getConfigurator().apply(new TalonFXConfiguration()); //this reset to default
-    elevatorMasterMotor.getConfigurator().apply(CTREConfigs.elevatorFXConfig); //elevator config
+    //elevatorMasterMotor.getConfigurator().apply(new TalonFXConfiguration()); //this reset to default
+    elevatorMasterMotor.getConfigurator().apply(Robot.ctreConfigs.elevatorFXConfig); //elevator config
 
-    elevatorFollowMotor.getConfigurator().apply(new TalonFXConfiguration());
-    elevatorFollowMotor.getConfigurator().apply(CTREConfigs.elevatorFXConfig);
+    //elevatorFollowMotor.getConfigurator().apply(new TalonFXConfiguration());
+    elevatorFollowMotor.getConfigurator().apply(Robot.ctreConfigs.elevatorFXConfig);
 
-    elevatorFollowMotor.setControl(new Follower(elevatorMasterMotor.getDeviceID(), true));
-
-    resetElevator();
+    //resetElevator();
   }
 
   public void resetElevator() { 
@@ -51,10 +53,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorFollowMotor.setPosition(0);
   }
 
-  public void setElevatorPosition(ElevatorSelector levelChoice) {
-    double setpoint = levelChoice.getHeight();
-    elevatorMM.Position = setpoint;
-    elevatorMasterMotor.setControl(elevatorMM.withPosition(setpoint).withSlot(0));
+  public void setElevatorPosition(double position) {
+    //double setpoint = levelChoice.getHeight();
+    elevatorMM.Position = position;
+    elevatorMasterMotor.setControl(elevatorMM.withPosition(position).withSlot(0));
+    elevatorFollowMotor.setControl(new Follower(elevatorMasterMotor.getDeviceID(), true));
   }
   
   public double getElevatorPosition() {
@@ -64,6 +67,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void stopElevator() {
     elevatorMasterMotor.set(0);
     elevatorFollowMotor.set(0);
+  }
+  public void runElevator() {
+    elevatorMasterMotor.set(-0.1);
+    elevatorFollowMotor.setControl(new Follower(elevatorMasterMotor.getDeviceID(), true));
+    //elevatorFollowMotor.set(0);
   }
 
   public void turnOffElevator(){

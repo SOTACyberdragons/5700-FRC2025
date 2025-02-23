@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.CTREConfigs;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -39,10 +40,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void configArmMotors() {
     armMasterMotor.getConfigurator().apply(new TalonFXConfiguration()); //this reset to default
-    armMasterMotor.getConfigurator().apply(CTREConfigs.armFXConfig); //elevator config
+    armMasterMotor.getConfigurator().apply(Robot.ctreConfigs.armFXConfig); //elevator config
 
     armFollowMotor.getConfigurator().apply(new TalonFXConfiguration());
-    armFollowMotor.getConfigurator().apply(CTREConfigs.armFXConfig);
+    armFollowMotor.getConfigurator().apply(Robot.ctreConfigs.armFXConfig);
 
     armFollowMotor.setControl(new Follower(armMasterMotor.getDeviceID(), true));
 
@@ -64,12 +65,12 @@ public class ArmSubsystem extends SubsystemBase {
     return armMasterMotor.getPosition().getValueAsDouble();
   }
 
-  public void stopArm() {
+  public void stopElevator() {
     armMasterMotor.set(0);
     armFollowMotor.set(0);
   }
 
-  public void turnOffArm(){
+  public void turn(){
     armMasterMotor.setControl(new NeutralOut()); 
     armFollowMotor.setControl(new NeutralOut()); 
   }
