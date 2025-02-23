@@ -15,7 +15,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
+// import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 
 public class ElevatorSubsystem extends SubsystemBase {
 

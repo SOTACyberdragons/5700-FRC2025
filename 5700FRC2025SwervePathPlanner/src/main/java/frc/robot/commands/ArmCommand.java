@@ -7,27 +7,27 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 // import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorCommand extends Command {
-  private ElevatorSubsystem elevatorSubsystem;
+public class ArmCommand extends Command {
+  private ArmSubsystem armSubsystem;
   //private final ElevatorSelector levelChoice;
-  private double elevatorHeight;
+  private double armAngle;
 
   /** Creates a new ElevatorCommand. */
-  public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, double elevatorHeight) {
+  public ArmCommand(ArmSubsystem armSubsystem, double armAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.elevatorSubsystem = elevatorSubsystem;
+    this.armSubsystem = armSubsystem;
     //this.levelChoice = levelChoice;
-    this.elevatorHeight = elevatorHeight;
-    addRequirements(elevatorSubsystem);
+    this.armAngle = armAngle;
+    addRequirements(armSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("elevator cmd");
+    System.out.println("arm cmd");
     //elevatorSubsystem.setElevatorPosition(levelChoice);
   }
 
@@ -35,7 +35,7 @@ public class ElevatorCommand extends Command {
   @Override
   public void execute() {
     //elevatorSubsystem.runElevator();
-    elevatorSubsystem.setElevatorPosition(elevatorHeight);
+   armSubsystem.setArmPosition(armAngle);
     
   }
 
@@ -43,7 +43,7 @@ public class ElevatorCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     //elevatorSubsystem.stopElevator();
-    elevatorSubsystem.setElevatorPosition(0.1);
+    armSubsystem.setArmPosition(0);
     //elevatorSubsystem.resetElevator();
 
   }

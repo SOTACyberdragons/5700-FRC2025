@@ -3,6 +3,8 @@ package frc.robot;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.DutyCycle;
+
 public class Constants {
     
     public static final class ElevatorConstants {
@@ -17,10 +19,10 @@ public class Constants {
 
         /* PID + FF Constants */
         public static final double ELEVATOR_G = 0; //tune until elevator holds postition without input
-        public static final double ELEVATOR_S = 0; //overcome static friction increase until threashold
+        public static final double ELEVATOR_S = 0.25; //overcome static friction increase until threashold
         public static final double ELEVATOR_V = 0; //velocity using tuner check steady state velocity and voltage kv = voltage/velocity
         public static final double ELEVATOR_A = 0; //kA = (Voltage - kS - kV * Velocity) / Acceleration
-        public static final double ELEVATOR_P = 10;
+        public static final double ELEVATOR_P = 15;
         public static final double ELEVATOR_I = 0;
         public static final double ELEVATOR_D = 0;
 
@@ -35,36 +37,37 @@ public class Constants {
 
 
         /* Heights */
-        public static final double ELEVATOR_L1_HEIGHT = 10;
-        public static final double ELEVATOR_L2_HEIGHT = 0;
-        public static final double ELEVATOR_L3_HEIGHT = 0;
-        public static final double ELEVATOR_L4_HEIGHT = 0;
+        public static final double ELEVATOR_L1_HEIGHT = 1;
+        public static final double ELEVATOR_L2_HEIGHT = 2;
+        public static final double ELEVATOR_L3_HEIGHT = 5;
+        public static final double ELEVATOR_L4_HEIGHT = 6;
 
-        public enum ElevatorSelector {
-            RESET(0),
-            L1(ELEVATOR_L1_HEIGHT),
-            L2(ELEVATOR_L2_HEIGHT),
-            L3(ELEVATOR_L3_HEIGHT),
-            L4(ELEVATOR_L4_HEIGHT);
+        // public enum ElevatorSelector {
+        //     RESET(0),
+        //     L1(ELEVATOR_L1_HEIGHT),
+        //     L2(ELEVATOR_L2_HEIGHT),
+        //     L3(ELEVATOR_L3_HEIGHT),
+        //     L4(ELEVATOR_L4_HEIGHT);
 
-            private double height;
+        //     private double height;
 
-            private ElevatorSelector(double height) {
-                this.height = height;
-            }
+        //     private ElevatorSelector(double height) {
+        //         this.height = height;
+        //     }
 
-            public double getHeight() {
-                return height;
-            }
-        }
+        //     public double getHeight() {
+        //         return height;
+        //     }
+        // }
 
     }
+
+    
 
     public static final class ArmConstants {
         /* Motor IDs */
         // TO-DO: set ids for motor contorllers
-        public static final int ARM_MOTOR_MASTER_ID = 14; 
-        public static final int ARM_MOTOR_FOLLOW_ID = 15;
+        public static final int ARM_MOTOR_ID = 5; 
 
         /* Invert + Neutral Mode */
         public static final InvertedValue ARM_INVERTED = InvertedValue.Clockwise_Positive; // TO-DO: figure out directions
@@ -75,47 +78,22 @@ public class Constants {
         public static final double ARM_S = 0; //overcome static friction increase until threashold
         public static final double ARM_V = 0; //velocity using tuner check steady state velocity and voltage kv = voltage/velocity
         public static final double ARM_A = 0; //kA = (Voltage - kS - kV * Velocity) / Acceleration
-        public static final double ARM_P = 0;
+        public static final double ARM_P = 10;
         public static final double ARM_I = 0;
         public static final double ARM_D = 0;
 
         /* MM Config Contants */
-        public static final double ELEVATOR_MM_C = 5; //Cruise
-        public static final double ELEVATOR_MM_A = 10; //Acceleration
-        public static final double ELEVATOR_MM_J = 100; //Jerk
+        public static final double ARM_MM_C = 5; //Cruise
+        public static final double ARM_MM_A = 10; //Acceleration
+        public static final double ARM_MM_J = 100; //Jerk
 
-        /* Elevator Hall Effect 0 point*/
+        /* Angles */
+        public static final double ARM_ANGLE_1 = 1;
+        public static final double ARM_ANGLE_2 = 0;
+        public static final double ARM_ANGLE_3 = 0;
+        public static final double ARM_ANGLE_4 = 0;
 
-        public static final double ELEVATOR_Hall_Zero = 0; //0 point for elevator
+        public static final int ARM_ENCODER_PORT = 9;
 
-
-        /* Heights */
-        public static final double ELEVATOR_L1_HEIGHT = 0;
-        public static final double ELEVATOR_L2_HEIGHT = 0;
-        public static final double ELEVATOR_L3_HEIGHT = 0;
-        public static final double ELEVATOR_L4_HEIGHT = 0;
-        public static final int ARM_ENCODER_CHANNELA = 0;
-        public static final int ARM_ENCODER_CHANNELB = 0;
-        public static final double ARM_MM_C = 0;
-        public static final double ARM_MM_A = 0;
-        public static final double ARM_MM_J = 0;
-
-        public enum ElevatorSelector {
-            RESET(0),
-            L1(ELEVATOR_L1_HEIGHT),
-            L2(ELEVATOR_L2_HEIGHT),
-            L3(ELEVATOR_L3_HEIGHT),
-            L4(ELEVATOR_L4_HEIGHT);
-
-            private double height;
-
-            private ElevatorSelector(double height) {
-                this.height = height;
-            }
-
-            public double getHeight() {
-                return height;
-            }
-        }        
     }
 }

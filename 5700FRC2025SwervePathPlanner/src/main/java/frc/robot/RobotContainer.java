@@ -17,11 +17,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
+//import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.commands.ArmCommand;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -44,6 +46,9 @@ public class RobotContainer {
 
     /* Elevator */
     public final ElevatorSubsystem elevator = new ElevatorSubsystem();
+
+    /* Arm */
+    public final ArmSubsystem arm = new ArmSubsystem();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -98,11 +103,18 @@ public class RobotContainer {
 
         /* Elevator */
 
-        joystick.x().whileTrue(new ElevatorCommand(elevator, 1));
-        joystick.y().whileTrue(new ElevatorCommand(elevator, 5));
-        joystick.a().whileTrue(new ElevatorCommand(elevator, 6));
-        joystick.b().whileTrue(new ElevatorCommand(elevator, 2));
+        joystick.x().whileTrue(new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L1_HEIGHT));
+        joystick.b().whileTrue(new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L2_HEIGHT));
+        joystick.y().whileTrue(new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT));
+        joystick.a().whileTrue(new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT));
         
+        
+
+
+
+        /* Arm */
+
+        joystick.rightBumper().whileTrue(new ArmCommand(arm, Constants.ArmConstants.ARM_ANGLE_1));
     }
 
     public Command getAutonomousCommand() {
