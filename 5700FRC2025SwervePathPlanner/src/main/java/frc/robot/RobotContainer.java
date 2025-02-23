@@ -23,7 +23,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.commands.ArmCommand;
+import frc.robot.commands.*;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -115,6 +115,7 @@ public class RobotContainer {
         /* Arm */
 
         joystick.rightBumper().whileTrue(new ArmCommand(arm, Constants.ArmConstants.ARM_ANGLE_1));
+        joystick.rightTrigger().whileTrue(new ArmRunCommand(arm));
     }
 
     public Command getAutonomousCommand() {

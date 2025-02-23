@@ -5,28 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-// import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.subsystems.ArmSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ArmCommand extends Command {
+public class ArmRunCommand extends Command {
   private ArmSubsystem armSubsystem;
-  private double armAngle;
 
   /** Creates a new ElevatorCommand. */
-  public ArmCommand(ArmSubsystem armSubsystem, double armAngle) {
+  public ArmRunCommand(ArmSubsystem armSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armSubsystem = armSubsystem;
     //this.levelChoice = levelChoice;
-    this.armAngle = armAngle;
     addRequirements(armSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("arm cmd");
+    System.out.println("run arm cmd");
     //elevatorSubsystem.setElevatorPosition(levelChoice);
   }
 
@@ -34,7 +30,8 @@ public class ArmCommand extends Command {
   @Override
   public void execute() {
     //elevatorSubsystem.runElevator();
-   armSubsystem.setArmPosition(2);
+    armSubsystem.runArmMotor();
+   
     
   }
 
@@ -42,7 +39,9 @@ public class ArmCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     //elevatorSubsystem.stopElevator();
-    armSubsystem.setArmPosition(0);
+    //armSubsystem.setArmPosition(0);
+    armSubsystem.resetArm();
+    armSubsystem.stopArm();
     //elevatorSubsystem.resetElevator();
 
   }

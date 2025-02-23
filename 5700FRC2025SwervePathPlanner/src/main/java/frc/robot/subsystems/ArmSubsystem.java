@@ -54,7 +54,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void resetArm() { 
-    armMotor.setPosition(0);
+    armMotor.setPosition(1);
   }
 
   public void setArmPosition(double position) {
@@ -66,8 +66,12 @@ public class ArmSubsystem extends SubsystemBase {
     return armMotor.getPosition().getValueAsDouble();
   }
 
-  public void stopElevator() {
+  public void stopArm() {
     armMotor.set(0);
+  }
+
+  public void runArmMotor() {
+    armMotor.set(0.25);
   }
 
   public void turn(){
