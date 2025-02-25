@@ -95,5 +95,10 @@ public class Constants {
 
         public static final int ARM_ENCODER_PORT = 9;
 
+        public static final double ARM_ZERO_POSITION = 0;  //desired arm position
+        public static final double TICKS_PER_REV = 2048.0 * 25.0;  // falcon is 2048 cpr, find out what the motor output to arm is 
+
+        public static final double ARM_ZERO_POSITION_THRESHOLD = 0.001; //0 point threshold
+
     }
 }

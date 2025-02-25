@@ -17,12 +17,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-//import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
-import frc.robot.commands.ElevatorCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+//import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.commands.*;
 
 public class RobotContainer {
@@ -73,6 +72,10 @@ public class RobotContainer {
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
+        
+        //arm default homing
+        arm.setDefaultCommand(new ArmDefaultCommand(arm));
+
         /* 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         joystick.b().whileTrue(drivetrain.applyRequest(() ->

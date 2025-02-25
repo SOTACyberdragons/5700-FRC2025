@@ -43,7 +43,7 @@ public class ElevatorCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     //elevatorSubsystem.stopElevator();
-    elevatorSubsystem.setElevatorPosition(0.1);
+    elevatorSubsystem.setElevatorPosition(0.01);
     //elevatorSubsystem.resetElevator();
 
   }

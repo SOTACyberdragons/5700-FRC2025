@@ -26,7 +26,6 @@ public class ArmSubsystem extends SubsystemBase {
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(Constants.ArmConstants.ARM_ENCODER_PORT);
 
 
-
   // encoder limit switch 0-180
   // use rev encoder only
   // 
@@ -40,7 +39,9 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    if(isAtZeroPosition()){
+      resetArm();
+    }
     //System.out.println("Arm Position: " + getArmPosition());
     //System.out.println("Arm Connected? " + armEncoder.isConnected());
     // System.out.println(armEncoder.get());
@@ -50,11 +51,11 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.getConfigurator().apply(new TalonFXConfiguration()); //this reset to default
     armMotor.getConfigurator().apply(Robot.ctreConfigs.armFXConfig); // arm config
 
-    resetArm();
+    //resetArm(); //dont reset arm in config, let encoder do it
   }
 
-  public void resetArm() { 
-    armMotor.setPosition(1);
+  public void resetArm() { //reset 0
+    armMotor.setPosition(0);
   }
 
   public void setArmPosition(double position) {
@@ -74,9 +75,21 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.set(0.25);
   }
 
-  public void turn(){
+  public void turnOffArm(){
     armMotor.setControl(new NeutralOut()); 
   }
+
+  public void moveToZeroPosition() {
+    double currentPosition = armEncoder.get();
+    double positionError = Constants.ArmConstants.ARM_ZERO_POSITION - currentPosition;
+    double falconTarget = positionError * Constants.ArmConstants.TICKS_PER_REV;
+
+    armMotor.setControl(armMM.withPosition(falconTarget).withSlot(1));
+  }
+
+  public boolean isAtZeroPosition() {
+  return Math.abs(armEncoder.get() - Constants.ArmConstants.ARM_ZERO_POSITION) < Constants.ArmConstants.ARM_ZERO_POSITION_THRESHOLD;
+  } 
  
 
 }
