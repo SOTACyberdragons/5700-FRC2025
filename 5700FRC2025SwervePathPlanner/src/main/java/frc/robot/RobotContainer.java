@@ -113,7 +113,8 @@ public class RobotContainer {
         
         
 
-
+        /*Vision */
+        joystick.leftTrigger().whileTrue(new VisionMoveToTarget(drivetrain));
 
         /* Arm */
 

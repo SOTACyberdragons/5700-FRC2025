@@ -34,7 +34,7 @@ public class ArmCommand extends Command {
   @Override
   public void execute() {
     //elevatorSubsystem.runElevator();
-   armSubsystem.setArmPosition(2);
+   armSubsystem.setArmPosition(0.5);
     
   }
 

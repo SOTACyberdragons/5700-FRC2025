@@ -101,4 +101,10 @@ public class Constants {
         public static final double ARM_ZERO_POSITION_THRESHOLD = 0.001; //0 point threshold
 
     }
+    public static final class VisionConstants {
+
+        public static final double TARGET_LATERAL_OFFSET = 0;
+
+
+    }
 }
