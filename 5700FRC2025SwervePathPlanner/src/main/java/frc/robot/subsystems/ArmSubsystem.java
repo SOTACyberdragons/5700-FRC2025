@@ -18,10 +18,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.CTREConfigs;
 import frc.robot.Constants;
 import frc.robot.Robot;
-// import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
+
 
 public class ArmSubsystem extends SubsystemBase {
-  /** Creates a new ElevatorSubsystem. */
+
   private TalonFX armMotor = new TalonFX(Constants.ArmConstants.ARM_MOTOR_ID, "rio");
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(Constants.ArmConstants.ARM_ENCODER_PORT);
 

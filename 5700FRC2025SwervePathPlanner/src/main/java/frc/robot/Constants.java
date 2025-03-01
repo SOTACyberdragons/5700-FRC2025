@@ -107,4 +107,23 @@ public class Constants {
 
 
     }
+    public static final class INTAKEConstants {
+
+        public static final int INTAKE_MOTOR_ID = 6; 
+        public static final InvertedValue INTAKE_INVERTED = InvertedValue.Clockwise_Positive; // TO-DO: figure out directions
+        public static final NeutralModeValue INTAKE_NEUTRAL_MODE = NeutralModeValue.Brake;
+
+        public static final int INTAKE_CURRENT_THRESHOLD = 10; 
+        public static final int INTAKE_CURRENT_DIR= 5; 
+
+    }
+
+    public static enum IntakeDirection{
+        CORAL,
+        ALGAE,
+        NONE
+    }
+    public static IntakeDirection intakeState = IntakeDirection.NONE;
+
+
 }

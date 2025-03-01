@@ -12,6 +12,7 @@ import static edu.wpi.first.units.Units.*;
 public final class CTREConfigs {
     public TalonFXConfiguration elevatorFXConfig = new TalonFXConfiguration();
     public TalonFXConfiguration armFXConfig = new TalonFXConfiguration();
+    public TalonFXConfiguration intakeFXConfig = new TalonFXConfiguration();
 
     public CTREConfigs() {
         /* Elevator Motor */
@@ -99,5 +100,22 @@ public final class CTREConfigs {
         /* motor rotation to output of arm*/
         var armfdb = armFXConfig.Feedback; // 25:1 ratio
         armfdb.SensorToMechanismRatio = 25;
+        
+        /////////////////////////////////////////////////////////////////////
+
+         /* intake Motor */
+       var intakeOutput = intakeFXConfig.MotorOutput;
+       intakeOutput.Inverted = Constants.INTAKEConstants.INTAKE_INVERTED;
+       intakeOutput.NeutralMode = Constants.INTAKEConstants.INTAKE_NEUTRAL_MODE;
+
+       /* Intake Current Limits */
+       var intakeCurrentLimits = intakeFXConfig.CurrentLimits;
+       intakeCurrentLimits.SupplyCurrentLimitEnable = true;
+       intakeCurrentLimits.SupplyCurrentLimit = 35;
+       intakeCurrentLimits.SupplyCurrentLowerLimit = 20;
+       intakeCurrentLimits.SupplyCurrentLowerTime = 0.5;
+       intakeCurrentLimits.StatorCurrentLimit = 60;
+       intakeCurrentLimits.StatorCurrentLimitEnable = true;
+
     }
 }
