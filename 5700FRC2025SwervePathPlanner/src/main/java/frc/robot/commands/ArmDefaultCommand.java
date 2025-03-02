@@ -26,17 +26,19 @@ public class ArmDefaultCommand extends Command {
   public void initialize() {
     //System.out.println("arm cmd");
     //elevatorSubsystem.setElevatorPosition(levelChoice);
-    armSubsystem.setArmPosition(0);
+    //armSubsystem.setArmPosition(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    /* 
     if(armSubsystem.isAtZeroPosition()){
       armSubsystem.resetArm();
     } else{
       armSubsystem.moveToZeroPosition();
     }
+    */
     
   }
 
@@ -44,7 +46,7 @@ public class ArmDefaultCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     //elevatorSubsystem.stopElevator();
-    armSubsystem.setArmPosition(0);
+    //armSubsystem.setArmPosition(0);
     //elevatorSubsystem.resetElevator();
 
   }

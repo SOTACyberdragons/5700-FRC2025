@@ -15,11 +15,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 //import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.commands.*;
@@ -52,6 +55,9 @@ public class RobotContainer {
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
+    /*Intake */
+    public final IntakeSubsystem intake = new IntakeSubsystem();
+    
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -114,12 +120,21 @@ public class RobotContainer {
         
 
         /*Vision */
-        joystick.leftTrigger().whileTrue(new VisionMoveToTarget(drivetrain));
+        //joystick.leftTrigger().whileTrue(new VisionMoveToTarget(drivetrain));
 
         /* Arm */
 
         joystick.rightBumper().whileTrue(new ArmCommand(arm, Constants.ArmConstants.ARM_ANGLE_1));
         joystick.rightTrigger().whileTrue(new ArmRunCommand(arm));
+
+        /*Intake */
+        joystick.leftTrigger().onTrue(
+            new ParallelCommandGroup(
+                new IntakeCommand(intake),
+                new InstantCommand(() -> Constants.intakeState = Constants.IntakeDirection.ALGAE)
+            )
+        );
+
     }
 
     public Command getAutonomousCommand() {

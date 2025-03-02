@@ -38,7 +38,8 @@ public class IntakeCommand extends Command {
         intakeSubsystem.runIntakeCoral();
         break;
       case ALGAE:
-        intakeSubsystem.runIntakeAlgae();
+        //intakeSubsystem.runIntakeAlgae();
+        intakeSubsystem.setIntakeVoltage(1);
         break;
       default:
         intakeSubsystem.stopIntake();

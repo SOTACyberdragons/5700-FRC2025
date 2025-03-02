@@ -78,25 +78,25 @@ public class Constants {
         public static final double ARM_S = 0; //overcome static friction increase until threashold
         public static final double ARM_V = 0; //velocity using tuner check steady state velocity and voltage kv = voltage/velocity
         public static final double ARM_A = 0; //kA = (Voltage - kS - kV * Velocity) / Acceleration
-        public static final double ARM_P = 10;
+        public static final double ARM_P = 1;
         public static final double ARM_I = 0;
         public static final double ARM_D = 0;
 
         /* MM Config Contants */
-        public static final double ARM_MM_C = 5; //Cruise
-        public static final double ARM_MM_A = 10; //Acceleration
-        public static final double ARM_MM_J = 100; //Jerk
+        public static final double ARM_MM_C =0.5; //Cruise
+        public static final double ARM_MM_A = 0.8; //Acceleration
+        public static final double ARM_MM_J = 10; //Jerk
 
         /* Angles */
-        public static final double ARM_ANGLE_1 = 1;
+        public static final double ARM_ANGLE_1 = 0.1;
         public static final double ARM_ANGLE_2 = 0;
         public static final double ARM_ANGLE_3 = 0;
         public static final double ARM_ANGLE_4 = 0;
 
         public static final int ARM_ENCODER_PORT = 9;
 
-        public static final double ARM_ZERO_POSITION = 0;  //desired arm position
-        public static final double TICKS_PER_REV = 2048.0 * 25.0;  // falcon is 2048 cpr, find out what the motor output to arm is 
+        public static final double ARM_ZERO_POSITION = 0;  //desired arm position encoder value
+        public static final double TICKS_PER_REV = 2048.0 * 200.0;  // falcon is 2048 cpr, find out what the motor output to arm is 
 
         public static final double ARM_ZERO_POSITION_THRESHOLD = 0.001; //0 point threshold
 
@@ -113,7 +113,7 @@ public class Constants {
         public static final InvertedValue INTAKE_INVERTED = InvertedValue.Clockwise_Positive; // TO-DO: figure out directions
         public static final NeutralModeValue INTAKE_NEUTRAL_MODE = NeutralModeValue.Brake;
 
-        public static final int INTAKE_CURRENT_THRESHOLD = 10; 
+       public static final int INTAKE_CURRENT_THRESHOLD = 10; 
         public static final int INTAKE_CURRENT_DIR= 5; 
 
     }

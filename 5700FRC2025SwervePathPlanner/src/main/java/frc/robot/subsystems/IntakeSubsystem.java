@@ -9,7 +9,9 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.StrictFollower;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -23,6 +25,7 @@ import frc.robot.Robot;
 public class IntakeSubsystem extends SubsystemBase {
 
   private TalonFX intakeMotor = new TalonFX(Constants.INTAKEConstants.INTAKE_MOTOR_ID, "rio");
+  private VoltageOut intakeVoltage = new VoltageOut(0);
 
 
   public IntakeSubsystem() {
@@ -46,6 +49,10 @@ public class IntakeSubsystem extends SubsystemBase {
   
   public void stopIntake() {
     intakeMotor.set(0);
+  }
+
+  public void setIntakeVoltage(double voltage) {
+    intakeVoltage.withOutput(voltage);
   }
 
   public void runIntakeCoral() {

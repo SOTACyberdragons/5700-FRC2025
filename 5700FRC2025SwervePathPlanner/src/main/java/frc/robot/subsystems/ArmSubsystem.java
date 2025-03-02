@@ -39,12 +39,14 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    /*
     if(isAtZeroPosition()){
       resetArm();
     }
-    //System.out.println("Arm Position: " + getArmPosition());
+    */
+    System.out.println("Arm Position: " + getArmPosition());
     //System.out.println("Arm Connected? " + armEncoder.isConnected());
-    // System.out.println(armEncoder.get());
+    System.out.println("Encoder: " + armEncoder.get());
   }
 
   public void configArmMotors() {
@@ -79,10 +81,17 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.setControl(new NeutralOut()); 
   }
 
-  public void moveToZeroPosition() {
+  public void moveToZeroPosition() {//homing to encdoer set 0 value. not need if using testArmEncoderReset() constantly
     double currentPosition = armEncoder.get();
     double positionError = Constants.ArmConstants.ARM_ZERO_POSITION - currentPosition;
-    double falconTarget = positionError * Constants.ArmConstants.TICKS_PER_REV;
+    double falconTarget = positionError;// * Constants.ArmConstants.TICKS_PER_REV;
+
+    armMotor.setControl(armMM.withPosition(falconTarget).withSlot(1));
+  }
+  public void moveToEncoderPosition(double setpoint) {
+    double currentPosition = armEncoder.get();
+    double positionError = setpoint - currentPosition;
+    double falconTarget = positionError;// * Constants.ArmConstants.TICKS_PER_REV; No need for ticks per rev if sensor to mech ratio
 
     armMotor.setControl(armMM.withPosition(falconTarget).withSlot(1));
   }
@@ -90,6 +99,13 @@ public class ArmSubsystem extends SubsystemBase {
   public boolean isAtZeroPosition() {
   return Math.abs(armEncoder.get() - Constants.ArmConstants.ARM_ZERO_POSITION) < Constants.ArmConstants.ARM_ZERO_POSITION_THRESHOLD;
   } 
+
+  public void testArmEncoderReset() { //constantly reset falcon encoder to REV encoder value
+    //In this method of feedback. Set points will be based on REV encoder values.
+    double encoderPosition = armEncoder.get();
+    armMotor.setPosition(encoderPosition);
+  }
+
  
 
 }

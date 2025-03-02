@@ -33,13 +33,14 @@ public class IntakeDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.updateIntakeState();
+    //intakeSubsystem.updateIntakeState();
     switch (Constants.intakeState) {
       case CORAL:
         intakeSubsystem.runCoralSlow();
         break;
       case ALGAE:
-        intakeSubsystem.runAlgaeSlow();
+        //intakeSubsystem.runAlgaeSlow();
+        intakeSubsystem.setIntakeVoltage(1);
         break;
       default:
         intakeSubsystem.stopIntake();

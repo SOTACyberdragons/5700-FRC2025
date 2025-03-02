@@ -98,9 +98,9 @@ public final class CTREConfigs {
                      .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(Constants.ArmConstants.ARM_MM_J));
 
         /* motor rotation to output of arm*/
-        var armfdb = armFXConfig.Feedback; // 25:1 ratio
-        armfdb.SensorToMechanismRatio = 25;
-        
+        var armfdb = armFXConfig.Feedback; // 200:1 ratio
+        armfdb.SensorToMechanismRatio = 200;
+
         /////////////////////////////////////////////////////////////////////
 
          /* intake Motor */
@@ -111,10 +111,10 @@ public final class CTREConfigs {
        /* Intake Current Limits */
        var intakeCurrentLimits = intakeFXConfig.CurrentLimits;
        intakeCurrentLimits.SupplyCurrentLimitEnable = true;
-       intakeCurrentLimits.SupplyCurrentLimit = 35;
-       intakeCurrentLimits.SupplyCurrentLowerLimit = 20;
+       intakeCurrentLimits.SupplyCurrentLimit = 60;
+       intakeCurrentLimits.SupplyCurrentLowerLimit = 40;
        intakeCurrentLimits.SupplyCurrentLowerTime = 0.5;
-       intakeCurrentLimits.StatorCurrentLimit = 60;
+       intakeCurrentLimits.StatorCurrentLimit = 120;
        intakeCurrentLimits.StatorCurrentLimitEnable = true;
 
     }
