@@ -12,12 +12,12 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ArmCommand extends Command {
+public class ArmIntakeCommand extends Command {
   private ArmSubsystem armSubsystem;
   private double armAngle;
 
   /** Creates a new ElevatorCommand. */
-  public ArmCommand(ArmSubsystem armSubsystem,double armAngle) {
+  public ArmIntakeCommand(ArmSubsystem armSubsystem,double armAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
     
     this.armSubsystem = armSubsystem;
@@ -44,10 +44,10 @@ public class ArmCommand extends Command {
     //elevatorSubsystem.runElevator();
     switch (States.elevatorState) {
       case GROUND:
-        armSubsystem.setArmPosition(0.14);
+        armSubsystem.setArmPosition(armAngle);
         break;
       case L2CLEARED:
-        armSubsystem.setArmPosition(armAngle);
+        armSubsystem.setArmPosition(0.14);
         break;
       default:
         armSubsystem.stopArm();

@@ -6,20 +6,22 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.Constants.IntakeDirection;
+import frc.robot.States;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
+  private int direction;
 
   private boolean killed;
 
   /** Creates a new IntakeCommand. */
-  public IntakeCommand(IntakeSubsystem intakeSubsystem) {
+  public IntakeCommand(IntakeSubsystem intakeSubsystem, int direction) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intakeSubsystem = intakeSubsystem;
+    this.direction = direction;
 
     addRequirements(intakeSubsystem);
   }
@@ -33,7 +35,8 @@ public class IntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    switch (Constants.intakeState) {
+    /* 
+    switch (States.intakeState) {
       case CORAL:
         intakeSubsystem.runIntakeCoral();
         break;
@@ -46,6 +49,12 @@ public class IntakeCommand extends Command {
         break;
     }
     killed = intakeSubsystem.intakeCurrentReached();
+    */
+    if(direction == 1){
+    intakeSubsystem.runIntakeCoral();
+    }else {
+      intakeSubsystem.runIntakeAlgae();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -57,6 +66,6 @@ public class IntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return killed;
+    return false;
   }
 }

@@ -40,7 +40,7 @@ public class ArmRunCommand extends Command {
   public void end(boolean interrupted) {
     //elevatorSubsystem.stopElevator();
     //armSubsystem.setArmPosition(0);
-    armSubsystem.resetArm();
+    //armSubsystem.resetArm();
     armSubsystem.stopArm();
     //elevatorSubsystem.resetElevator();
 

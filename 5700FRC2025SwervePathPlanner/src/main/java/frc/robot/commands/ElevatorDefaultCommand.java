@@ -5,64 +5,50 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.States;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class IntakeDefaultCommand extends Command {
-  private IntakeSubsystem intakeSubsystem;
-
-  private boolean killed;
-
-  /** Creates a new IntakeCommand. */
-  public IntakeDefaultCommand(IntakeSubsystem intakeSubsystem) {
+public class ElevatorDefaultCommand extends Command {
+  private ElevatorSubsystem elevatorSubsystem;
+  /** Creates a new ElevatorDefaultCommand. */
+  public ElevatorDefaultCommand(ElevatorSubsystem elevatorSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.intakeSubsystem = intakeSubsystem;
-
-    addRequirements(intakeSubsystem);
+    this.elevatorSubsystem = elevatorSubsystem;
+    addRequirements(elevatorSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //intakeSubsystem.updateIntakeState();
-    /* 
-    switch (States.intakeState) {
-      case CORAL:
-        intakeSubsystem.runCoralSlow();
+          switch (States.armState) {
+      case START:
+        elevatorSubsystem.stopElevator();
         break;
-      case ALGAE:
-        //intakeSubsystem.runAlgaeSlow();
-        intakeSubsystem.setIntakeVoltage(1);
+      case CLEAR:
+        elevatorSubsystem.setElevatorPosition(0);
         break;
+      case SCORE:
+      elevatorSubsystem.stopElevator();
+        break;
+      case INTAKE:
+      elevatorSubsystem.stopElevator();
+      break;
       default:
-        intakeSubsystem.stopIntake();
+      elevatorSubsystem.stopElevator();
         break;
     }
-    */
-    if(intakeSubsystem.getIntakeCurrent()>30){
 
-      intakeSubsystem.runIntakeAlgae();
-    }else{
-      intakeSubsystem.stopIntake();
-    }
-    
-    
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
@@ -70,4 +56,3 @@ public class IntakeDefaultCommand extends Command {
     return false;
   }
 }
-

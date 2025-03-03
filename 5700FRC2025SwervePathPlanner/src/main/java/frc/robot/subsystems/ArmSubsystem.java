@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.CTREConfigs;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.States;
+import frc.robot.States.ArmState;
+import frc.robot.States.ElevatorState;
 
 
 public class ArmSubsystem extends SubsystemBase {
@@ -34,6 +37,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   public ArmSubsystem() {
     configArmMotors();
+    testArmEncoderReset();
+    //testArmEncoderReset();
   }
 
   @Override
@@ -47,6 +52,27 @@ public class ArmSubsystem extends SubsystemBase {
     System.out.println("Arm Position: " + getArmPosition());
     //System.out.println("Arm Connected? " + armEncoder.isConnected());
     System.out.println("Encoder: " + armEncoder.get());
+    //testArmEncoderReset();
+    //testArmEncoderReset();
+    /* 
+    if(Math.abs(getArmPosition()- 0.42)<0.1){
+      States.armState = ArmState.START;
+    }else if (Math.abs(getArmPosition()- 0.14)<0.1){
+      States.armState = ArmState.CLEAR;
+    } else if (Math.abs(getArmPosition() + 0.04)<0.1){
+      States.armState = ArmState.SCORE;
+    } 
+    */
+    if((getArmPosition()<0.45)&&(getArmPosition()>0.16)){
+      States.armState = ArmState.START;
+    }else if((getArmPosition()<0.15)&&(getArmPosition()>0.1)){
+      States.armState = ArmState.CLEAR;
+    } else if ((getArmPosition()<0)&&(getArmPosition()>-0.06)){
+      States.armState = ArmState.SCORE;
+    } 
+
+    
+
   }
 
   public void configArmMotors() {
@@ -74,7 +100,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void runArmMotor() {
-    armMotor.set(0.25);
+    armMotor.set(0.05);
   }
 
   public void turnOffArm(){
@@ -103,7 +129,12 @@ public class ArmSubsystem extends SubsystemBase {
   public void testArmEncoderReset() { //constantly reset falcon encoder to REV encoder value
     //In this method of feedback. Set points will be based on REV encoder values.
     double encoderPosition = armEncoder.get();
+    double falconTarget = encoderPosition- 0.41;
     armMotor.setPosition(encoderPosition);
+  }
+
+  public double getEncoderValue(){
+    return armEncoder.get();
   }
 
  

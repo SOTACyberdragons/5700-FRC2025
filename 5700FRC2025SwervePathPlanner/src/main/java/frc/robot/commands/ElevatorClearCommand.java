@@ -7,54 +7,58 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.States;
-// import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.subsystems.ArmSubsystem;
+// import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ArmCommand extends Command {
-  private ArmSubsystem armSubsystem;
-  private double armAngle;
+public class ElevatorClearCommand extends Command {
+  private ElevatorSubsystem elevatorSubsystem;
+  //private final ElevatorSelector levelChoice;
+  private double elevatorHeight;
+  private boolean killed;
 
   /** Creates a new ElevatorCommand. */
-  public ArmCommand(ArmSubsystem armSubsystem,double armAngle) {
+  public ElevatorClearCommand(ElevatorSubsystem elevatorSubsystem, double elevatorHeight) {
     // Use addRequirements() here to declare subsystem dependencies.
-    
-    this.armSubsystem = armSubsystem;
-    //this.elevatorSubsystem = elevatorSubsystem;
+    this.elevatorSubsystem = elevatorSubsystem;
     //this.levelChoice = levelChoice;
-    this.armAngle = armAngle;
-    addRequirements(armSubsystem);
+    this.elevatorHeight = elevatorHeight;
+    addRequirements(elevatorSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("arm cmd");
+    System.out.println("elevator cmd");
+    killed = false;
     //elevatorSubsystem.setElevatorPosition(levelChoice);
-    //armSubsystem.testArmEncoderReset();
-    if(armSubsystem.getArmPosition()>0.1){
-      armSubsystem.testArmEncoderReset();
-    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //elevatorSubsystem.runElevator();
-    switch (States.elevatorState) {
-      case GROUND:
-        armSubsystem.setArmPosition(0.14);
+    switch (States.armState) {
+      case START:
+        elevatorSubsystem.stopElevator();
         break;
-      case L2CLEARED:
-        armSubsystem.setArmPosition(armAngle);
+      case CLEAR:
+        elevatorSubsystem.setElevatorPosition(elevatorHeight);
         break;
+      case SCORE:
+        elevatorSubsystem.setElevatorPosition(elevatorHeight);
+        break;
+      case INTAKE:
+      elevatorSubsystem.stopElevator();
+      break;
       default:
-        armSubsystem.stopArm();
+      elevatorSubsystem.stopElevator();
         break;
     }
-
-  
+    if(Math.abs(elevatorSubsystem.getElevatorPosition()-elevatorHeight) < 0.2){
+      killed = true;
+    }
     
   }
 
@@ -62,16 +66,14 @@ public class ArmCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     //elevatorSubsystem.stopElevator();
-    //armSubsystem.setArmPosition(0.42);//default starting
+    //elevatorSubsystem.setElevatorPosition(0);
     //elevatorSubsystem.resetElevator();
-
-    //armSubsystem.setArmPosition(0.14);
 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return killed;
   }
 }

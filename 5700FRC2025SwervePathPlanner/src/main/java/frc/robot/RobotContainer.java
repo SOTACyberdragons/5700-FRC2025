@@ -73,14 +73,16 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(-joystick.getLeftY() * (MaxSpeed * States.elevatorSlowMode.getSpeedFactor())) // Drive forward with negative Y (forward)
+                    .withVelocityY(-joystick.getLeftX() * (MaxSpeed* States.elevatorSlowMode.getSpeedFactor())) // Drive left with negative X (left)
+                    .withRotationalRate(-joystick.getRightX() * (MaxAngularRate* States.elevatorSlowMode.getSpeedFactor())) // Drive counterclockwise with negative X (left)
             )
         );
         
-        //arm default homing
+        //Default Commands
         arm.setDefaultCommand(new ArmDefaultCommand(arm));
+        elevator.setDefaultCommand(new ElevatorDefaultCommand(elevator));
+        intake.setDefaultCommand(new IntakeDefaultCommand(intake));
 
         /* 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
@@ -104,7 +106,7 @@ public class RobotContainer {
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
-        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        joystick.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -112,28 +114,91 @@ public class RobotContainer {
 
         /* Elevator */
 
-        joystick.x().whileTrue(new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L1_HEIGHT));
-        joystick.b().whileTrue(new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L2_HEIGHT));
-        joystick.y().whileTrue(new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT));
-        joystick.a().whileTrue(new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT));
-        
+        //Elevator Height Commands
+        joystick.x().whileTrue(
+            new ParallelCommandGroup(
+                new ArmCommand(arm, -0.05),
+                new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L2_HEIGHT)
+            )
+        );
+        joystick.x().onFalse( //needs testing lifts elevator up a bit after coral score to prevent arm hitting
+            new ElevatorClearCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L2_HEIGHT+0.5)
+        );
+
+        joystick.y().whileTrue(
+            new ParallelCommandGroup(
+                new ArmCommand(arm, -0.07),
+                new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT)
+            )
+        );
+
+        joystick.y().onFalse( //needs testing lifts elevator up a bit after coral score to prevent arm hitting
+        new ElevatorClearCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT+0.5)
+        );
+
+
+        joystick.a().whileTrue(
+            new ParallelCommandGroup(
+                new ArmCommand(arm, -0.04),
+                new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT)
+            )
+        );
+
+        joystick.a().onFalse( //needs testing lifts elevator up a bit after coral score to prevent arm hitting
+        new ElevatorClearCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT+0.5)
+        );
+
+        //Intake Coral From station
+        joystick.rightBumper().whileTrue(
+            new ParallelCommandGroup(
+                new ArmIntakeCommand(arm, 0.37),
+                new ElevatorCommand(elevator, 0),
+                new IntakeCommand(intake,1)
+            )
+        );
+
+        //Outtake Coral
+        joystick.leftTrigger().whileTrue(new IntakeCommand(intake,0));
+
+        //Algae Low posistion Intake
+        joystick.leftBumper().whileTrue(
+            new ParallelCommandGroup(
+                new ArmIntakeCommand(arm, 0.25),
+                new ElevatorCommand(elevator, 0),
+                new IntakeCommand(intake,0)
+            )
+        );
         
 
+        //Algae High posistion Intake
+        joystick.pov(90).whileTrue(
+            new ParallelCommandGroup(
+                new ArmIntakeCommand(arm, 0.14),
+                new ElevatorCommand(elevator, 1.2),
+                new IntakeCommand(intake,0)
+            )
+        );
+
+        //Algae Outake (need to add elevator a barrage angle)
+        /*
+        joystick.b().whileTrue( //barrage height needs to be measure L4 temp placeholder
+            new ParallelCommandGroup(
+                new ArmCommand(arm, -0.04),
+                new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT)
+            )
+        );
+        */
+        joystick.rightTrigger().whileTrue(new IntakeCommand(intake,1)); //add enum for or boolean for direction, algae outtake
+
+        
         /*Vision */
         //joystick.leftTrigger().whileTrue(new VisionMoveToTarget(drivetrain));
 
         /* Arm */
 
-        joystick.rightBumper().whileTrue(new ArmCommand(arm, Constants.ArmConstants.ARM_ANGLE_1));
-        joystick.rightTrigger().whileTrue(new ArmRunCommand(arm));
+        //joystick.rightBumper().whileTrue(new ArmCommand(arm, Constants.ArmConstants.ARM_ANGLE_1));
+        //joystick.rightTrigger().whileTrue(new ArmRunCommand(arm));
 
-        /*Intake */
-        joystick.leftTrigger().onTrue(
-            new ParallelCommandGroup(
-                new IntakeCommand(intake),
-                new InstantCommand(() -> Constants.intakeState = Constants.IntakeDirection.ALGAE)
-            )
-        );
 
     }
 

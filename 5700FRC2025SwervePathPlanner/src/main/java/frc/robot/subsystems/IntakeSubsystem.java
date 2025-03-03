@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.CTREConfigs;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.States;
 
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -36,6 +37,8 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+
 
 
   }
@@ -56,10 +59,10 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void runIntakeCoral() {
-    intakeMotor.set(0.5);
+    intakeMotor.set(0.2);
   }
   public void runIntakeAlgae() {
-    intakeMotor.set(-0.5);
+    intakeMotor.set(-0.2);
   }
 
   public void runCoralSlow() {
@@ -73,24 +76,24 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public double getIntakeCurrent() {
-    return intakeMotor.getSupplyCurrent().getValueAsDouble();
+    return intakeMotor.getStatorCurrent().getValueAsDouble();
   }
 
   public void updateIntakeState(){
     if(getIntakeCurrent()>Constants.INTAKEConstants.INTAKE_CURRENT_DIR){
-      Constants.intakeState = Constants.IntakeDirection.CORAL;
+      States.intakeState = States.IntakeDirection.CORAL;
     }else if(getIntakeCurrent()<-Constants.INTAKEConstants.INTAKE_CURRENT_DIR){
-      Constants.intakeState = Constants.IntakeDirection.ALGAE;
+      States.intakeState = States.IntakeDirection.ALGAE;
     }else{
-      Constants.intakeState = Constants.IntakeDirection.NONE;
+      States.intakeState = States.IntakeDirection.NONE;
     }
   }
   public boolean intakeCurrentReached(){
     if(getIntakeCurrent()>Constants.INTAKEConstants.INTAKE_CURRENT_THRESHOLD){
-      Constants.intakeState = Constants.IntakeDirection.CORAL;
+      States.intakeState = States.IntakeDirection.CORAL;
       return true;
     }else if(getIntakeCurrent()<-Constants.INTAKEConstants.INTAKE_CURRENT_THRESHOLD){
-      Constants.intakeState = Constants.IntakeDirection.ALGAE;
+      States.intakeState = States.IntakeDirection.ALGAE;
       return true;
     }else{
       return false;

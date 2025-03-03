@@ -4,20 +4,27 @@
 
 package frc.robot.commands;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.EnumKeySerializer;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.States;
 // import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ArmDefaultCommand extends Command {
   private ArmSubsystem armSubsystem;
 
 
+
+
   /** Creates a new ElevatorCommand. */
   public ArmDefaultCommand(ArmSubsystem armSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armSubsystem = armSubsystem;
+
     addRequirements(armSubsystem);
   }
 
@@ -27,6 +34,10 @@ public class ArmDefaultCommand extends Command {
     //System.out.println("arm cmd");
     //elevatorSubsystem.setElevatorPosition(levelChoice);
     //armSubsystem.setArmPosition(0);
+    if(armSubsystem.getArmPosition()>0.1){
+      armSubsystem.testArmEncoderReset();
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,6 +50,30 @@ public class ArmDefaultCommand extends Command {
       armSubsystem.moveToZeroPosition();
     }
     */
+    /* 
+    if(elevatorSubsystem.getElevatorPosition()<0.15){
+      armSubsystem.setArmPosition(0.14); //0.385 intake coral, 
+    }else{
+      armSubsystem.setArmPosition(0.14); //0.385 intake coral, 
+    }
+    */
+    /* 
+    if(armSubsystem.getEncoderValue() == 0.42){
+      armSubsystem.testArmEncoderReset();
+    }
+    */
+        //elevatorSubsystem.runElevator();
+    switch (States.elevatorState) {
+      case GROUND:
+        armSubsystem.setArmPosition(0.14);
+        break;
+      case L2CLEARED:
+        armSubsystem.setArmPosition(0.14);
+        break;
+      default:
+        armSubsystem.stopArm();
+        break;
+    }
     
   }
 

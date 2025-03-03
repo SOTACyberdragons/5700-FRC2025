@@ -16,8 +16,7 @@ import frc.robot.generated.TunerConstants;
 
 
 public class VisionMoveToTarget extends Command {
-  private CommandSwerveDrivetrain swerve = TunerConstants.createDrivetrain();
-
+  private final CommandSwerveDrivetrain drivetrain;
   private final PIDController rotationPID = new PIDController(0.01,0,0); //tx
   private final PIDController forwardPID = new PIDController(0.1,0,0); //ty
   private final PIDController lateralPID = new PIDController(0.05, 0, 0);
@@ -33,10 +32,10 @@ public class VisionMoveToTarget extends Command {
 
 
   /** Creates a new VisionMoveToTarget. */
-  public VisionMoveToTarget(CommandSwerveDrivetrain swerve) {
+  public VisionMoveToTarget(CommandSwerveDrivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.swerve = swerve;
-    addRequirements(swerve);
+    this.drivetrain = drivetrain;
+    addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.
@@ -56,7 +55,7 @@ public class VisionMoveToTarget extends Command {
 
   // If no target is detected, stop the drivetrain.
   if (!targetVisible || botPose.length < 6) {
-    swerve.applyRequest(() -> 
+    drivetrain.applyRequest(() -> 
       drive.withVelocityX(0.0)  // No forward movement
            .withVelocityY(0.0)  // No lateral movement
            .withRotationalRate(0.0)  // No rotation
@@ -74,7 +73,7 @@ public class VisionMoveToTarget extends Command {
     double lateralCommand = lateralPID.calculate(currentLateral, DESIRED_LATERAL);
     double rotationCommand = rotationPID.calculate(currentYaw, 0);
     // Apply the drive request to the drivetrain with calculated speeds
-    swerve.applyRequest(() -> 
+    drivetrain.applyRequest(() -> 
       drive.withVelocityX(forwardCommand*0.2)  // Forward movement
            .withVelocityY(lateralCommand*0.2)  // Lateral movement
            .withRotationalRate(rotationCommand*0.2)  // Rotation to align with target

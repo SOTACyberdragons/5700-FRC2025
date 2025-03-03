@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.States;
+import frc.robot.subsystems.ArmSubsystem;
 // import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.subsystems.ElevatorSubsystem;
 
@@ -35,7 +37,23 @@ public class ElevatorCommand extends Command {
   @Override
   public void execute() {
     //elevatorSubsystem.runElevator();
-    elevatorSubsystem.setElevatorPosition(elevatorHeight);
+    switch (States.armState) {
+      case START:
+        elevatorSubsystem.stopElevator();
+        break;
+      case CLEAR:
+        elevatorSubsystem.setElevatorPosition(elevatorHeight);
+        break;
+      case SCORE:
+        elevatorSubsystem.setElevatorPosition(elevatorHeight);
+        break;
+      case INTAKE:
+      elevatorSubsystem.stopElevator();
+      break;
+      default:
+      elevatorSubsystem.stopElevator();
+        break;
+    }
     
   }
 
@@ -43,7 +61,7 @@ public class ElevatorCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     //elevatorSubsystem.stopElevator();
-    elevatorSubsystem.setElevatorPosition(0.1);
+    //elevatorSubsystem.setElevatorPosition(0);
     //elevatorSubsystem.resetElevator();
 
   }

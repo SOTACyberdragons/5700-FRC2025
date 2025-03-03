@@ -37,30 +37,19 @@ public class Constants {
 
 
         /* Heights */
-        public static final double ELEVATOR_L1_HEIGHT = 1;
-        public static final double ELEVATOR_L2_HEIGHT = 2;
-        public static final double ELEVATOR_L3_HEIGHT = 5;
-        public static final double ELEVATOR_L4_HEIGHT = 6;
+        //public static final double ELEVATOR_L1_HEIGHT = 1; 
+        public static final double ELEVATOR_L2_HEIGHT = 0.96; //0.96 arm 0.96 elevator 
+        public static final double ELEVATOR_L3_HEIGHT = 2.4; //2.23 elevator 0.93 arm
+        public static final double ELEVATOR_L4_HEIGHT = 7.07; //7.07 elevator 0.96 arm
+        public static final double ELEVATOR_MAX = 7.6;//7.6 elevator
 
-        // public enum ElevatorSelector {
-        //     RESET(0),
-        //     L1(ELEVATOR_L1_HEIGHT),
-        //     L2(ELEVATOR_L2_HEIGHT),
-        //     L3(ELEVATOR_L3_HEIGHT),
-        //     L4(ELEVATOR_L4_HEIGHT);
 
-        //     private double height;
-
-        //     private ElevatorSelector(double height) {
-        //         this.height = height;
-        //     }
-
-        //     public double getHeight() {
-        //         return height;
-        //     }
-        // }
+  
 
     }
+
+
+
 
     
 
@@ -74,18 +63,18 @@ public class Constants {
         public static final NeutralModeValue ARM_NEUTRAL_MODE = NeutralModeValue.Brake;
 
         /* PID + FF Constants */
-        public static final double ARM_G = 0; //tune until elevator holds postition without input
-        public static final double ARM_S = 0; //overcome static friction increase until threashold
+        public static final double ARM_G = 0.12; //tune until elevator holds postition without input
+        public static final double ARM_S = 0.05; //overcome static friction increase until threashold
         public static final double ARM_V = 0; //velocity using tuner check steady state velocity and voltage kv = voltage/velocity
         public static final double ARM_A = 0; //kA = (Voltage - kS - kV * Velocity) / Acceleration
-        public static final double ARM_P = 1;
+        public static final double ARM_P = 400;
         public static final double ARM_I = 0;
         public static final double ARM_D = 0;
 
         /* MM Config Contants */
-        public static final double ARM_MM_C =0.5; //Cruise
-        public static final double ARM_MM_A = 0.8; //Acceleration
-        public static final double ARM_MM_J = 10; //Jerk
+        public static final double ARM_MM_C =10; //Cruise
+        public static final double ARM_MM_A = 15; //Acceleration
+        public static final double ARM_MM_J = 40; //Jerk
 
         /* Angles */
         public static final double ARM_ANGLE_1 = 0.1;
@@ -118,12 +107,7 @@ public class Constants {
 
     }
 
-    public static enum IntakeDirection{
-        CORAL,
-        ALGAE,
-        NONE
-    }
-    public static IntakeDirection intakeState = IntakeDirection.NONE;
+
 
 
 }
