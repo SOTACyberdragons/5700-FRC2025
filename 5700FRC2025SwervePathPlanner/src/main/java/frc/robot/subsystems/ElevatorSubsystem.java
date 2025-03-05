@@ -87,11 +87,13 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void updateElevatorSlowMode(){
-    if(getElevatorPosition()>=Constants.ElevatorConstants.ELEVATOR_L2_HEIGHT){
+    if(getElevatorPosition()>=(Constants.ElevatorConstants.ELEVATOR_L2_HEIGHT)){
       States.elevatorSlowMode = States.ElevatorSlowMode.LOW;
-    }else if(getElevatorPosition()>=Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT){
+    }else if(getElevatorPosition()>=(Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT)){
       States.elevatorSlowMode = States.ElevatorSlowMode.HIGH;
-    }else{
+    } else if (getElevatorPosition() >= Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT) {
+      States.elevatorSlowMode = States.ElevatorSlowMode.EXTREME;
+    } else {
       States.elevatorSlowMode = States.ElevatorSlowMode.NONE;
     }
   }

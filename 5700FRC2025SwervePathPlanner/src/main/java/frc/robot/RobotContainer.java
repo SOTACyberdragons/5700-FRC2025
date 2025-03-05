@@ -10,6 +10,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -26,6 +27,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 //import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.commands.*;
+import frc.robot.commands.AutoCMDs.*;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -42,13 +44,14 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-    private final CommandXboxController joystick = new CommandXboxController(0);
+    private final CommandXboxController joystick = new CommandXboxController(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     /* Elevator */
     public final ElevatorSubsystem elevator = new ElevatorSubsystem();
 
+    
     /* Arm */
     public final ArmSubsystem arm = new ArmSubsystem();
 
@@ -59,6 +62,12 @@ public class RobotContainer {
     public final IntakeSubsystem intake = new IntakeSubsystem();
     
     public RobotContainer() {
+        NamedCommands.registerCommand("IntakeCMD", new IntakeCMD(intake));
+        NamedCommands.registerCommand("OuttakeCMD", new OuttakeCMD(intake));
+        NamedCommands.registerCommand("ArmDefault", new ArmCMD(arm));
+        NamedCommands.registerCommand("ArmScore", new ArmScoreCMD(arm));
+        NamedCommands.registerCommand("ElevatorL2", new ElevatorCMD(elevator));
+
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
@@ -133,7 +142,7 @@ public class RobotContainer {
         );
 
         joystick.y().onFalse( //needs testing lifts elevator up a bit after coral score to prevent arm hitting
-        new ElevatorClearCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT+0.5)
+        new ElevatorClearCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT+1.0)
         );
 
 
@@ -192,7 +201,8 @@ public class RobotContainer {
 
         
         /*Vision */
-        //joystick.leftTrigger().whileTrue(new VisionMoveToTarget(drivetrain));
+        joystick.pov(270).whileTrue(new VisionMoveToTarget(drivetrain));
+
 
         /* Arm */
 

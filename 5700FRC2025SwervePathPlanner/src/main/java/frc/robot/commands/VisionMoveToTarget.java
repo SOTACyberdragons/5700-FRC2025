@@ -54,7 +54,7 @@ public class VisionMoveToTarget extends Command {
 
 
   // If no target is detected, stop the drivetrain.
-  if (!targetVisible || botPose.length < 6) {
+  if (!targetVisible ){//|| botPose.length < 6) {
     drivetrain.applyRequest(() -> 
       drive.withVelocityX(0.0)  // No forward movement
            .withVelocityY(0.0)  // No lateral movement
