@@ -11,6 +11,7 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
@@ -37,7 +38,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public ArmSubsystem() {
     configArmMotors();
-    testArmEncoderReset();
+    //testArmEncoderReset();
     //testArmEncoderReset();
   }
 
@@ -81,6 +82,15 @@ public class ArmSubsystem extends SubsystemBase {
 
     //resetArm(); //dont reset arm in config, let encoder do it
   }
+
+  public void setArmBrakeMode(){
+    armMotor.setNeutralMode(NeutralModeValue.Brake);
+  }
+
+  public void setArmCoastMode(){
+    armMotor.setNeutralMode(NeutralModeValue.Coast);
+  }
+
 
   public void resetArm() { //reset 0
     armMotor.setPosition(0);

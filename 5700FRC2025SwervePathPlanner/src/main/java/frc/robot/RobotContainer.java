@@ -210,9 +210,13 @@ public class RobotContainer {
 
         
         /*Vision */
+        
         joystick.pov(270).whileTrue(drivetrain.applyRequest(() ->
             vision.withVelocityX(visionSubsystem.getForwardCommand()).withVelocityY(-visionSubsystem.getLateralCommand()).withRotationalRate(-visionSubsystem.getRotationCommand()))
         );
+
+        //joystick.pov(270).whileTrue(new VisionMoveToTarget(drivetrain, visionSubsystem)); //test this
+
 
 
         /* Arm */
