@@ -12,12 +12,12 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorCMD extends Command {
+public class ElevatorL2CMD extends Command {
   private ElevatorSubsystem elevatorSubsystem;
   private boolean killed;
 
   /** Creates a new ElevatorCommand. */
-  public ElevatorCMD(ElevatorSubsystem elevatorSubsystem) {
+  public ElevatorL2CMD(ElevatorSubsystem elevatorSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
 
 
@@ -31,7 +31,7 @@ public class ElevatorCMD extends Command {
   public void initialize() {
     killed = false;
 
-    System.out.println("elevator cmd");
+    System.out.println("elevator L2 cmd");
     //elevatorSubsystem.setElevatorPosition(levelChoice);
     elevatorSubsystem.setElevatorPosition(Constants.ElevatorConstants.ELEVATOR_L2_HEIGHT);
   }

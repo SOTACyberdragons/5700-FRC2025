@@ -12,12 +12,12 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ArmScoreCMD extends Command {
+public class ArmL2ScoreCMD extends Command {
   private ArmSubsystem armSubsystem;
   private boolean killed;
 
   /** Creates a new ElevatorCommand. */
-  public ArmScoreCMD(ArmSubsystem armSubsystem) {
+  public ArmL2ScoreCMD(ArmSubsystem armSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     
     this.armSubsystem = armSubsystem;

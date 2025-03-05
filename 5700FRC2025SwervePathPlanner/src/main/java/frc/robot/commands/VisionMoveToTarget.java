@@ -17,9 +17,9 @@ import frc.robot.generated.TunerConstants;
 
 public class VisionMoveToTarget extends Command {
   private final CommandSwerveDrivetrain drivetrain;
-  private final PIDController rotationPID = new PIDController(0.01,0,0); //tx
-  private final PIDController forwardPID = new PIDController(0.1,0,0); //ty
-  private final PIDController lateralPID = new PIDController(0.05, 0, 0);
+  private final PIDController rotationPID = new PIDController(5,0,0); //tx
+  private final PIDController forwardPID = new PIDController(5,0,0); //ty
+  private final PIDController lateralPID = new PIDController(5, 0, 0);
 
 
   private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
@@ -41,16 +41,18 @@ public class VisionMoveToTarget extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    System.out.println("vision cmd");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    boolean targetVisible = LimelightHelpers.getTV(""); // Valid target flag
+    boolean targetVisible = LimelightHelpers.getTV("limelight"); // Valid target flag
 
-    double[] botPose = LimelightHelpers.getBotPose("");
+    double[] botPose = LimelightHelpers.getBotPose("limelight");
+
+    
 
 
   // If no target is detected, stop the drivetrain.
@@ -78,6 +80,7 @@ public class VisionMoveToTarget extends Command {
            .withVelocityY(lateralCommand*0.2)  // Lateral movement
            .withRotationalRate(rotationCommand*0.2)  // Rotation to align with target
     );
+
   }
 
   // Called once the command ends or is interrupted.

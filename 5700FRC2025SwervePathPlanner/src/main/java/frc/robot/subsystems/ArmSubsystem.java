@@ -49,9 +49,9 @@ public class ArmSubsystem extends SubsystemBase {
       resetArm();
     }
     */
-    System.out.println("Arm Position: " + getArmPosition());
+    //System.out.println("Arm Position: " + getArmPosition());
     //System.out.println("Arm Connected? " + armEncoder.isConnected());
-    System.out.println("Encoder: " + armEncoder.get());
+    //System.out.println("Encoder: " + armEncoder.get());
     //testArmEncoderReset();
     //testArmEncoderReset();
     /* 

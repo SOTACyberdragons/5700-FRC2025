@@ -24,6 +24,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 //import frc.robot.Constants.ElevatorConstants.ElevatorSelector;
 import frc.robot.commands.*;
@@ -41,10 +42,12 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    private final SwerveRequest.RobotCentric vision = new SwerveRequest.RobotCentric()
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-    private final CommandXboxController joystick = new CommandXboxController(1);
+    private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -60,13 +63,19 @@ public class RobotContainer {
 
     /*Intake */
     public final IntakeSubsystem intake = new IntakeSubsystem();
-    
+
+    /* Vision */
+    public final VisionSubsystem visionSubsystem = new VisionSubsystem();
+
+
     public RobotContainer() {
         NamedCommands.registerCommand("IntakeCMD", new IntakeCMD(intake));
         NamedCommands.registerCommand("OuttakeCMD", new OuttakeCMD(intake));
         NamedCommands.registerCommand("ArmDefault", new ArmCMD(arm));
-        NamedCommands.registerCommand("ArmScore", new ArmScoreCMD(arm));
-        NamedCommands.registerCommand("ElevatorL2", new ElevatorCMD(elevator));
+        NamedCommands.registerCommand("ArmScore", new ArmL2ScoreCMD(arm));
+        NamedCommands.registerCommand("ArmScoreL4", new ArmL4ScoreCMD(arm));
+        NamedCommands.registerCommand("ElevatorL2", new ElevatorL2CMD(elevator));
+        NamedCommands.registerCommand("ElevatorL4", new ElevatorL4CMD(elevator));
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -201,7 +210,9 @@ public class RobotContainer {
 
         
         /*Vision */
-        joystick.pov(270).whileTrue(new VisionMoveToTarget(drivetrain));
+        joystick.pov(270).whileTrue(drivetrain.applyRequest(() ->
+            vision.withVelocityX(visionSubsystem.getForwardCommand()).withVelocityY(-visionSubsystem.getLateralCommand()).withRotationalRate(-visionSubsystem.getRotationCommand()))
+        );
 
 
         /* Arm */

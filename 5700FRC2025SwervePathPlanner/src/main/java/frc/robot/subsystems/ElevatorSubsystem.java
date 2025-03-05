@@ -37,7 +37,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     updateElevatorSlowMode();
-    System.out.println("Elevator Position: " + getElevatorPosition());
+    //System.out.println("Elevator Position: " + getElevatorPosition());
     if(getElevatorPosition()<0.2){
       States.elevatorState = ElevatorState.GROUND;
     }else if (getElevatorPosition()>0.9){
