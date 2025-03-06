@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AutoCMDs;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -16,22 +16,18 @@ import frc.robot.LimelightHelpers;
 import frc.robot.generated.TunerConstants;
 
 
-public class VisionMoveToTarget extends Command {
+public class AutoVisionCMD extends Command {
 
     private CommandSwerveDrivetrain drivetrain;
     private VisionSubsystem visionsubsystem;
+    private int direction;
+    private boolean killed;
 
     private final SwerveRequest.RobotCentric visionRequest = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-    private int direction;
-
-    private double forwardCommand;
-    private double lateralCommand;
-    private double rotationCommand;
-
   /** Creates a new VisionMoveToTarget. */
-  public VisionMoveToTarget(CommandSwerveDrivetrain drivetrain, VisionSubsystem visionsubsystem, int direction) {
+  public AutoVisionCMD(CommandSwerveDrivetrain drivetrain, VisionSubsystem visionsubsystem, int direction) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
     this.visionsubsystem = visionsubsystem;
@@ -44,15 +40,18 @@ public class VisionMoveToTarget extends Command {
   @Override
   public void initialize() {
     System.out.println("vision cmd");
+
+    killed = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    // Retrieve alignment commands from the vision subsystem
-    forwardCommand = visionsubsystem.getForwardCommand();
-    rotationCommand = visionsubsystem.getRotationCommand();
+        // Retrieve alignment commands from the vision subsystem
+        double forwardCommand = visionsubsystem.getForwardCommand();
+        double lateralCommand = visionsubsystem.getLateralCommand();
+        double rotationCommand = visionsubsystem.getRotationCommand();
 
         if (direction == 0) {
           lateralCommand = visionsubsystem.getLateralCommand();
@@ -61,7 +60,6 @@ public class VisionMoveToTarget extends Command {
         } else {
           lateralCommand = visionsubsystem.getLateralCommandR();
         }
-        
 
         // Apply the vision alignment command to the drivetrain
         drivetrain.setControl(
@@ -69,22 +67,22 @@ public class VisionMoveToTarget extends Command {
                          .withVelocityY(-lateralCommand)
                          .withRotationalRate(-rotationCommand)
         );
+
+        if (visionsubsystem.targetReached()) {
+          killed = true;
+        } else {
+          killed = false;
+        }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-        //     // Stop the drivetrain when the command ends
-        // drivetrain.setControl(
-        //     visionRequest.withVelocityX(0)
-        //                  .withVelocityY(0)
-        //                  .withRotationalRate(0)
-        // );
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return killed;
   }
 }

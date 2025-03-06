@@ -42,6 +42,8 @@ public class ElevatorSubsystem extends SubsystemBase {
       States.elevatorState = ElevatorState.GROUND;
     }else if (getElevatorPosition()>0.9){
       States.elevatorState = ElevatorState.L2CLEARED;
+    } else if (getElevatorPosition() > 4) {
+      States.elevatorState = ElevatorState.STAGE1CLEARED;
     }
   }
 

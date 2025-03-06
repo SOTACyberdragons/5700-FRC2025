@@ -10,9 +10,11 @@ import frc.robot.LimelightHelpers;
 
 
 public class VisionSubsystem extends SubsystemBase {
-  private final PIDController rotationPID = new PIDController(0.0005,0,0); //tx
-  private final PIDController forwardPID = new PIDController(0.3,0,0); //ty
-  private final PIDController lateralPID = new PIDController(0.3, 0, 0);
+  private final PIDController rotationPID = new PIDController(0.0008,0,0); //tx
+  private final PIDController forwardPID = new PIDController(1.0,0.001,0); //ty
+  private final PIDController lateralPIDR = new PIDController(1.5, 0, 0);
+  private final PIDController lateralPIDL = new PIDController(1.5, 0, 0);
+  private final PIDController lateralPID = new PIDController(1.5, 0, 0);
 
   private static final double DESIRED_FORWARD = 1.0; // desired forward distance
   private static final double DESIRED_LATERAL = 0.0; // desired lateral offset (centered)
@@ -21,6 +23,11 @@ public class VisionSubsystem extends SubsystemBase {
   private double lateralCommand;
   private double rotationCommand;
 
+  private double lateralCommandL;
+  private double lateralCommandR;
+
+  private double[] botPose;
+
   /** Creates a new Vision. */
   public VisionSubsystem() {}
 
@@ -28,7 +35,7 @@ public class VisionSubsystem extends SubsystemBase {
   public void periodic() {
     boolean targetVisible = LimelightHelpers.getTV("limelight"); // Valid target flag
 
-    double[] botPose = LimelightHelpers.getTargetPose_CameraSpace("limelight"); // Get robot pose in world frame
+    botPose = LimelightHelpers.getTargetPose_CameraSpace("limelight"); // Get robot pose in world frame
     
     double currentForward = botPose[2]; // Forward distance
     double currnetLateral = botPose[0]; // Lateral offset
@@ -44,13 +51,17 @@ public class VisionSubsystem extends SubsystemBase {
 
     //if (currentYaw < 0.25 || currentYaw > -0.25) currentYaw = 0;
 
+    // LEFT: Forward: 0.477; Lateral: 0.164
+
+
     if (targetVisible) {
       // Calculate PID commands for forward, lateral, and rotation
-      forwardCommand = forwardPID.calculate(currentForward, 0.05); // Target forward distance (1 meter away)
+      forwardCommand = forwardPID.calculate(currentForward, 0.477); // Target forward distance (1 meter away)
       lateralCommand = lateralPID.calculate(currnetLateral);
       rotationCommand = rotationPID.calculate(currentYaw, 0);
 
-
+      lateralCommandL = lateralPIDL.calculate(currnetLateral, 0.164); // 0.01651
+      lateralCommandR = lateralPIDR.calculate(currnetLateral, -0.127);
     } else {
       forwardCommand = 0;
       lateralCommand = 0;
@@ -70,7 +81,25 @@ public class VisionSubsystem extends SubsystemBase {
     return lateralCommand;
   }
 
+  public double getLateralCommandL() {
+    return lateralCommandL;
+  }
+
+  public double getLateralCommandR() {
+    return lateralCommandR;
+  }
+
   public double getRotationCommand() {
     return rotationCommand;
+  }
+
+  public boolean targetReached() {
+    if (((Math.abs(botPose[2] - 0.05)) < 0.01) && 
+        ((Math.abs(botPose[0])) < 0.01) &&
+        ((Math.abs(botPose[4])) < 1)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

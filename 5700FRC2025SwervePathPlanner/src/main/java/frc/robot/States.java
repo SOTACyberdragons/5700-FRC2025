@@ -25,7 +25,7 @@ public class States {
         LOW(0.5),
         HIGH(0.1),
         EXTREME(0.05),
-        NONE(1.0); 
+        NONE(0.9); 
 
         private final double speedFactor;
         ElevatorSlowMode(double speedFactor) {
@@ -52,6 +52,7 @@ public class States {
     public static enum ElevatorState{
         GROUND,
         L2CLEARED,
+        STAGE1CLEARED,
         NOTCLEAR
         
     }

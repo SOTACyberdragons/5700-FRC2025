@@ -76,6 +76,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("ArmScoreL4", new ArmL4ScoreCMD(arm));
         NamedCommands.registerCommand("ElevatorL2", new ElevatorL2CMD(elevator));
         NamedCommands.registerCommand("ElevatorL4", new ElevatorL4CMD(elevator));
+        NamedCommands.registerCommand("AutoVision", new AutoVisionCMD(drivetrain, visionSubsystem, 1));
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -109,9 +110,9 @@ public class RobotContainer {
         ));
         */
 
-        joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.5).withVelocityY(0))
-        );
+        // joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraight.withVelocityX(0.5).withVelocityY(0))
+        // );
         joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(-0.5).withVelocityY(0))
         );
@@ -145,13 +146,13 @@ public class RobotContainer {
 
         joystick.y().whileTrue(
             new ParallelCommandGroup(
-                new ArmCommand(arm, -0.07),
+                new ArmCommand(arm, -0.08),
                 new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT)
             )
         );
 
         joystick.y().onFalse( //needs testing lifts elevator up a bit after coral score to prevent arm hitting
-        new ElevatorClearCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT+1.0)
+            new ElevatorClearCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT+2.0)
         );
 
 
@@ -198,24 +199,33 @@ public class RobotContainer {
         );
 
         //Algae Outake (need to add elevator a barrage angle)
-        /*
+        
         joystick.b().whileTrue( //barrage height needs to be measure L4 temp placeholder
             new ParallelCommandGroup(
-                new ArmCommand(arm, -0.04),
-                new ElevatorCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT)
+                new ElevatorCommand(elevator, 7),
+                new ArmCommand(arm, -0.1)
+                
+            )  
+        );
+
+        joystick.pov(0).whileTrue(
+            new ParallelCommandGroup(
+                new ArmIntakeCommand(arm, 0.46),
+                new ElevatorCommand(elevator, 0)
             )
         );
-        */
+
+        
         joystick.rightTrigger().whileTrue(new IntakeCommand(intake,1)); //add enum for or boolean for direction, algae outtake
 
         
         /*Vision */
         
-        joystick.pov(270).whileTrue(drivetrain.applyRequest(() ->
-            vision.withVelocityX(visionSubsystem.getForwardCommand()).withVelocityY(-visionSubsystem.getLateralCommand()).withRotationalRate(-visionSubsystem.getRotationCommand()))
-        );
+        // joystick.pov(270).whileTrue(drivetrain.applyRequest(() ->
+        //     vision.withVelocityX(visionSubsystem.getForwardCommand()).withVelocityY(-visionSubsystem.getLateralCommand()).withRotationalRate(-visionSubsystem.getRotationCommand()))
+        // );
 
-        //joystick.pov(270).whileTrue(new VisionMoveToTarget(drivetrain, visionSubsystem)); //test this
+        joystick.pov(270).whileTrue(new VisionMoveToTarget(drivetrain, visionSubsystem, 1)); //test this
 
 
 

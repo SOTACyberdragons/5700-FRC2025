@@ -38,7 +38,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public ArmSubsystem() {
     configArmMotors();
-    //testArmEncoderReset();
+    testArmEncoderReset();
     //testArmEncoderReset();
   }
 
@@ -50,9 +50,9 @@ public class ArmSubsystem extends SubsystemBase {
       resetArm();
     }
     */
-    //System.out.println("Arm Position: " + getArmPosition());
-    //System.out.println("Arm Connected? " + armEncoder.isConnected());
-    //System.out.println("Encoder: " + armEncoder.get());
+    // System.out.println("Arm Position: " + getArmPosition());
+    // System.out.println("Arm Connected? " + armEncoder.isConnected());
+    // System.out.println("Encoder: " + armEncoder.get());
     //testArmEncoderReset();
     //testArmEncoderReset();
     /* 
@@ -64,7 +64,7 @@ public class ArmSubsystem extends SubsystemBase {
       States.armState = ArmState.SCORE;
     } 
     */
-    if((getArmPosition()<0.45)&&(getArmPosition()>0.16)){
+    if((getArmPosition()<0.47)&&(getArmPosition()>0.16)){
       States.armState = ArmState.START;
     }else if((getArmPosition()<0.15)&&(getArmPosition()>0.1)){
       States.armState = ArmState.CLEAR;

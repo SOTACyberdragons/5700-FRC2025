@@ -111,8 +111,8 @@ public final class CTREConfigs {
        /* Intake Current Limits */
        var intakeCurrentLimits = intakeFXConfig.CurrentLimits;
        intakeCurrentLimits.SupplyCurrentLimitEnable = true;
-       intakeCurrentLimits.SupplyCurrentLimit = 10;
-       intakeCurrentLimits.SupplyCurrentLowerLimit = 5;
+       intakeCurrentLimits.SupplyCurrentLimit = 5;
+       intakeCurrentLimits.SupplyCurrentLowerLimit = 3;
        intakeCurrentLimits.SupplyCurrentLowerTime = 0.5;
        intakeCurrentLimits.StatorCurrentLimit = 40;
        intakeCurrentLimits.StatorCurrentLimitEnable = true;
