@@ -65,9 +65,9 @@ public class VisionMoveToTarget extends Command {
 
         // Apply the vision alignment command to the drivetrain
         drivetrain.setControl(
-            visionRequest.withVelocityX(forwardCommand)
-                         .withVelocityY(-lateralCommand)
-                         .withRotationalRate(-rotationCommand)
+            visionRequest.withVelocityX(forwardCommand)//forwardCommand
+                         .withVelocityY(-lateralCommand)//-lateralCommand
+                         .withRotationalRate(rotationCommand)//rotationCommand
         );
   }
 

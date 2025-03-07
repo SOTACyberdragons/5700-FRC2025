@@ -25,7 +25,7 @@ public class States {
         LOW(0.5),
         HIGH(0.1),
         EXTREME(0.05),
-        NONE(0.9); 
+        NONE(0.8); 
 
         private final double speedFactor;
         ElevatorSlowMode(double speedFactor) {

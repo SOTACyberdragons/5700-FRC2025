@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.generated.TunerConstants;
@@ -89,6 +90,9 @@ public class RobotContainer {
 
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
+
+        //x = L2, y = L3, a = L4, b = barge, LB4 (left joystick press) = left vision, RB4 (right joystick press) = right vision, RB = station coral, Pov 0 = outtake coral, 
+        //RT = ball outtake, LB = Low Ball, LT = High Ball
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
@@ -113,16 +117,16 @@ public class RobotContainer {
         // joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
         //     forwardStraight.withVelocityX(0.5).withVelocityY(0))
         // );
-        joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        );
+        // joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraight.withVelocityX(-0.5).withVelocityY(0))
+        // );
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        // joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        // joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        // joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
         joystick.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
@@ -141,7 +145,10 @@ public class RobotContainer {
             )
         );
         joystick.x().onFalse( //needs testing lifts elevator up a bit after coral score to prevent arm hitting
+        new ParallelCommandGroup(
+            //new ArmHoldUpCommand(arm,-0.05),
             new ElevatorClearCommand(elevator, Constants.ElevatorConstants.ELEVATOR_L2_HEIGHT+0.5)
+        )
         );
 
         joystick.y().whileTrue(
@@ -177,7 +184,7 @@ public class RobotContainer {
         );
 
         //Outtake Coral
-        joystick.leftTrigger().whileTrue(new IntakeCommand(intake,0));
+        joystick.pov(0).whileTrue(new IntakeCommand(intake,0));
 
         //Algae Low posistion Intake
         joystick.leftBumper().whileTrue(
@@ -190,7 +197,7 @@ public class RobotContainer {
         
 
         //Algae High posistion Intake
-        joystick.pov(90).whileTrue(
+        joystick.leftTrigger().whileTrue(
             new ParallelCommandGroup(
                 new ArmIntakeCommand(arm, 0.14),
                 new ElevatorCommand(elevator, 1.2),
@@ -207,13 +214,13 @@ public class RobotContainer {
                 
             )  
         );
-
-        joystick.pov(0).whileTrue(
-            new ParallelCommandGroup(
-                new ArmIntakeCommand(arm, 0.46),
-                new ElevatorCommand(elevator, 0)
-            )
-        );
+        //processor
+        // joystick.pov(0).whileTrue(
+        //     new ParallelCommandGroup(
+        //         new ArmIntakeCommand(arm, 0.46),
+        //         new ElevatorCommand(elevator, 0)
+        //     )
+        // );
 
         
         joystick.rightTrigger().whileTrue(new IntakeCommand(intake,1)); //add enum for or boolean for direction, algae outtake
@@ -225,10 +232,12 @@ public class RobotContainer {
         //     vision.withVelocityX(visionSubsystem.getForwardCommand()).withVelocityY(-visionSubsystem.getLateralCommand()).withRotationalRate(-visionSubsystem.getRotationCommand()))
         // );
 
-        joystick.pov(270).whileTrue(new VisionMoveToTarget(drivetrain, visionSubsystem, 1)); //test this
+        //joystick.pov(270).whileTrue(new VisionMoveToTarget(drivetrain, visionSubsystem, 0)); //test this
 
+        joystick.leftStick().whileTrue(new VisionMoveToTarget(drivetrain, visionSubsystem, 1)); 
+        joystick.rightStick().whileTrue(new VisionMoveToTarget(drivetrain, visionSubsystem, 2)); 
 
-
+        joystick.pov(180).whileTrue(new VisionMoveToTarget(drivetrain, visionSubsystem, 0)); //test this
         /* Arm */
 
         //joystick.rightBumper().whileTrue(new ArmCommand(arm, Constants.ArmConstants.ARM_ANGLE_1));
