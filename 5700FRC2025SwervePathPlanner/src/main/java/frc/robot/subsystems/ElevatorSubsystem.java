@@ -12,6 +12,8 @@ import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -38,13 +40,19 @@ public class ElevatorSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     updateElevatorSlowMode();
     //System.out.println("Elevator Position: " + getElevatorPosition());
-    if(getElevatorPosition()<0.2){
-      States.elevatorState = ElevatorState.GROUND;
-    }else if (getElevatorPosition()>0.9){
-      States.elevatorState = ElevatorState.L2CLEARED;
-    } else if (getElevatorPosition() > 4) {
+
+    SmartDashboard.putNumber("Elevator Position", getElevatorPosition());
+
+    if(getElevatorPosition() > 4){
       States.elevatorState = ElevatorState.STAGE1CLEARED;
+    } else if (getElevatorPosition()>0.7 ){
+      States.elevatorState = ElevatorState.L2CLEARED;
+    }else if (getElevatorPosition()<0.2) {
+      States.elevatorState =ElevatorState.GROUND ;
     }
+
+    SmartDashboard.putString("Elevator State",States.elevatorState.toString());
+
   }
 
   public void configElevatorMotors() {
@@ -77,8 +85,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorMasterMotor.set(0);
     elevatorFollowMotor.set(0);
   }
-  public void runElevator() {
-    elevatorMasterMotor.set(-0.1);
+  public void runElevator(double speed) {
+    elevatorMasterMotor.set(speed);
     elevatorFollowMotor.setControl(new Follower(elevatorMasterMotor.getDeviceID(), true));
     //elevatorFollowMotor.set(0);
   }
@@ -89,12 +97,12 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void updateElevatorSlowMode(){
-    if(getElevatorPosition()>=(Constants.ElevatorConstants.ELEVATOR_L2_HEIGHT)){
-      States.elevatorSlowMode = States.ElevatorSlowMode.LOW;
+    if(getElevatorPosition()>=(Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT)){
+      States.elevatorSlowMode = States.ElevatorSlowMode.EXTREME;
     }else if(getElevatorPosition()>=(Constants.ElevatorConstants.ELEVATOR_L3_HEIGHT)){
       States.elevatorSlowMode = States.ElevatorSlowMode.HIGH;
-    } else if (getElevatorPosition() >= Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT) {
-      States.elevatorSlowMode = States.ElevatorSlowMode.EXTREME;
+    } else if (getElevatorPosition() >= Constants.ElevatorConstants.ELEVATOR_L2_HEIGHT) {
+      States.elevatorSlowMode = States.ElevatorSlowMode.LOW;
     } else {
       States.elevatorSlowMode = States.ElevatorSlowMode.NONE;
     }

@@ -77,8 +77,8 @@ public final class CTREConfigs {
        /* Arm Current Limits */
        var armCurrentLimits = armFXConfig.CurrentLimits;
        armCurrentLimits.SupplyCurrentLimitEnable = true;
-       armCurrentLimits.SupplyCurrentLimit = 60;
-       armCurrentLimits.SupplyCurrentLowerLimit = 40;
+       armCurrentLimits.SupplyCurrentLimit = 40;
+       armCurrentLimits.SupplyCurrentLowerLimit = 30;
        armCurrentLimits.SupplyCurrentLowerTime = 0.5;
        
        /* Arm PID/FF Gains */

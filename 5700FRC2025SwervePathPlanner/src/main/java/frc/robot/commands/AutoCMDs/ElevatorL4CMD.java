@@ -33,14 +33,14 @@ public class ElevatorL4CMD extends Command {
 
     System.out.println("elevator L4 cmd");
     //elevatorSubsystem.setElevatorPosition(levelChoice);
-    elevatorSubsystem.setElevatorPosition(Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT);
+    elevatorSubsystem.setElevatorPosition(5.79);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //elevatorSubsystem.runElevator();
-    if(Math.abs(elevatorSubsystem.getElevatorPosition() - Constants.ElevatorConstants.ELEVATOR_L4_HEIGHT) < 0.25){
+    if(Math.abs(elevatorSubsystem.getElevatorPosition() - 5.79) < 0.2){
       killed = true;
     }
   }

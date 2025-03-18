@@ -16,7 +16,7 @@ import frc.robot.LimelightHelpers;
 import frc.robot.generated.TunerConstants;
 
 
-public class AutoVisionCMD extends Command {
+public class AutoVisionBall extends Command {
 
   private CommandSwerveDrivetrain drivetrain;
   private VisionSubsystem visionsubsystem;
@@ -36,7 +36,7 @@ public class AutoVisionCMD extends Command {
   private double rotationCommand;
   private boolean killed;
   /** Creates a new VisionMoveToTarget. */
-  public AutoVisionCMD(CommandSwerveDrivetrain drivetrain, VisionSubsystem visionsubsystem) {
+  public AutoVisionBall(CommandSwerveDrivetrain drivetrain, VisionSubsystem visionsubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
     this.visionsubsystem = visionsubsystem;
@@ -59,13 +59,13 @@ public class AutoVisionCMD extends Command {
       if(visionsubsystem.getTA2()>=visionsubsystem.getTA1()){
 
       forwardCommand = forwardPID.calculate(visionsubsystem.getForward2(), 0.32); // Target forward distance (1 meter away) 0.477
-      lateralCommand = lateralPID.calculate(visionsubsystem.getLateral2(),-0.28);
+      lateralCommand = lateralPID.calculate(visionsubsystem.getLateral2(),-0.14);
       rotationCommand = rotationPID.calculate(visionsubsystem.getRotation2(), 0);
 
       }else if(visionsubsystem.getTA2()<visionsubsystem.getTA1()){
 
         forwardCommand = forwardPID.calculate(visionsubsystem.getForward(), 0.32); // Target forward distance (1 meter away) 0.477
-        lateralCommand = lateralPID.calculate(visionsubsystem.getLateral(),-0.02);
+        lateralCommand = lateralPID.calculate(visionsubsystem.getLateral(),0.14);
         rotationCommand = rotationPID.calculate(visionsubsystem.getRotation(), 0);
 
       }else{
@@ -82,8 +82,8 @@ public class AutoVisionCMD extends Command {
       rotationCommand = 0;
     }
       drivetrain.setControl(
-      visionRequest.withVelocityX(forwardCommand*0.85)//forwardCommand
-              .withVelocityY(-lateralCommand*0.5)//-lateralCommand
+      visionRequest.withVelocityX(forwardCommand)//forwardCommand
+              .withVelocityY(-lateralCommand)//-lateralCommand
               .withRotationalRate(rotationCommand*0.5)//rotationCommand
       );
   }

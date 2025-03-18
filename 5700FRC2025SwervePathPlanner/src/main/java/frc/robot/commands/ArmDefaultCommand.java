@@ -70,6 +70,9 @@ public class ArmDefaultCommand extends Command {
       case L2CLEARED:
         armSubsystem.setArmPosition(0.14);
         break;
+      case STAGE1CLEARED:
+        armSubsystem.setArmPosition(0.14);
+        break;
       default:
         armSubsystem.stopArm();
         break;

@@ -23,8 +23,8 @@ public class States {
     //Elevator Slow Mode state
     public static enum ElevatorSlowMode{
         LOW(0.5),
-        HIGH(0.1),
-        EXTREME(0.05),
+        HIGH(0.5),
+        EXTREME(0.5),
         NONE(0.8); 
 
         private final double speedFactor;
@@ -46,14 +46,15 @@ public class States {
         ALGAE,
         NONE
     }
-    public static IntakeDirection intakeState = IntakeDirection.NONE;
+    //public static IntakeDirection intakeState = IntakeDirection.NONE;
 
     //States for arm and elevator
     public static enum ElevatorState{
         GROUND,
         L2CLEARED,
         STAGE1CLEARED,
-        NOTCLEAR
+        NOTCLEAR, 
+        L1CLEARED
         
     }
     public static ElevatorState elevatorState = ElevatorState.GROUND;
@@ -66,6 +67,15 @@ public class States {
         
     }
     public static ArmState armState = ArmState.START;
+
+    public static enum IntakeState{
+        ALGAE,
+        CORAL,
+        NEUTRAL
+    
+        
+    }
+    public static IntakeState intakeState = IntakeState.NEUTRAL;
 
 
 

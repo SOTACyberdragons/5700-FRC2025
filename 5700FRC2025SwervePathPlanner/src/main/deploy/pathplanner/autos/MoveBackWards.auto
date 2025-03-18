@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "barely move"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoVision"
+            "pathName": "CenterAutoPath"
           }
         }
       ]

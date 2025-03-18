@@ -15,6 +15,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.CTREConfigs;
 import frc.robot.Constants;
@@ -50,9 +51,9 @@ public class ArmSubsystem extends SubsystemBase {
       resetArm();
     }
     */
-    // System.out.println("Arm Position: " + getArmPosition());
+    //System.out.println("Arm Position: " + getArmPosition());
     // System.out.println("Arm Connected? " + armEncoder.isConnected());
-    // System.out.println("Encoder: " + armEncoder.get());
+    //System.out.println("Encoder: " + armEncoder.get());
     //testArmEncoderReset();
     //testArmEncoderReset();
     /* 
@@ -64,13 +65,18 @@ public class ArmSubsystem extends SubsystemBase {
       States.armState = ArmState.SCORE;
     } 
     */
+    SmartDashboard.putNumber("Arm Position", getArmPosition());
+    SmartDashboard.putNumber("Arm Encoder", armEncoder.get());
+
     if((getArmPosition()<0.47)&&(getArmPosition()>0.16)){
       States.armState = ArmState.START;
+      
     }else if((getArmPosition()<0.15)&&(getArmPosition()>0.1)){
       States.armState = ArmState.CLEAR;
     } else if ((getArmPosition()<0)&&(getArmPosition()>-0.06)){
       States.armState = ArmState.SCORE;
     } 
+    SmartDashboard.putString("Arm State",States.armState.toString());
 
     
 
@@ -109,8 +115,8 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.set(0);
   }
 
-  public void runArmMotor() {
-    armMotor.set(0.05);
+  public void runArmMotor(double speed) {
+    armMotor.set(speed);
   }
 
   public void turnOffArm(){

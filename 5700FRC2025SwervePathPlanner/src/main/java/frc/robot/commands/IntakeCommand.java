@@ -7,6 +7,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.States;
+import frc.robot.States.ElevatorState;
+import frc.robot.States.IntakeState;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -17,7 +19,7 @@ public class IntakeCommand extends Command {
 
   private boolean killed;
 
-  /** Creates a new IntakeCommand. */
+  /** Creates a new IntakeCommand. direction 0 is Intake Algae, 1 is Intake coral*/
   public IntakeCommand(IntakeSubsystem intakeSubsystem, int direction) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intakeSubsystem = intakeSubsystem;
@@ -52,8 +54,11 @@ public class IntakeCommand extends Command {
     */
     if(direction == 1){
     intakeSubsystem.runIntakeCoral();
+    States.intakeState = IntakeState.CORAL;
+    
     }else {
       intakeSubsystem.runIntakeAlgae();
+      States.intakeState = IntakeState.ALGAE;
     }
   }
 

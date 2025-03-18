@@ -59,10 +59,10 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void runIntakeCoral() {
-    intakeMotor.set(0.2);
+    intakeMotor.set(0.1);
   }
   public void runIntakeAlgae() {
-    intakeMotor.set(-0.2);
+    intakeMotor.set(-0.1);
   }
 
   public void runCoralSlow() {
@@ -79,25 +79,25 @@ public class IntakeSubsystem extends SubsystemBase {
     return intakeMotor.getStatorCurrent().getValueAsDouble();
   }
 
-  public void updateIntakeState(){
-    if(getIntakeCurrent()>Constants.INTAKEConstants.INTAKE_CURRENT_DIR){
-      States.intakeState = States.IntakeDirection.CORAL;
-    }else if(getIntakeCurrent()<-Constants.INTAKEConstants.INTAKE_CURRENT_DIR){
-      States.intakeState = States.IntakeDirection.ALGAE;
-    }else{
-      States.intakeState = States.IntakeDirection.NONE;
-    }
-  }
-  public boolean intakeCurrentReached(){
-    if(getIntakeCurrent()>Constants.INTAKEConstants.INTAKE_CURRENT_THRESHOLD){
-      States.intakeState = States.IntakeDirection.CORAL;
-      return true;
-    }else if(getIntakeCurrent()<-Constants.INTAKEConstants.INTAKE_CURRENT_THRESHOLD){
-      States.intakeState = States.IntakeDirection.ALGAE;
-      return true;
-    }else{
-      return false;
-    }
+  // public void updateIntakeState(){
+  //   if(getIntakeCurrent()>Constants.INTAKEConstants.INTAKE_CURRENT_DIR){
+  //     States.intakeState = States.IntakeDirection.CORAL;
+  //   }else if(getIntakeCurrent()<-Constants.INTAKEConstants.INTAKE_CURRENT_DIR){
+  //     States.intakeState = States.IntakeDirection.ALGAE;
+  //   }else{
+  //     States.intakeState = States.IntakeDirection.NONE;
+  //   }
+  // }
+  // public boolean intakeCurrentReached(){
+  //   if(getIntakeCurrent()>Constants.INTAKEConstants.INTAKE_CURRENT_THRESHOLD){
+  //     States.intakeState = States.IntakeDirection.CORAL;
+  //     return true;
+  //   }else if(getIntakeCurrent()<-Constants.INTAKEConstants.INTAKE_CURRENT_THRESHOLD){
+  //     States.intakeState = States.IntakeDirection.ALGAE;
+  //     return true;
+  //   }else{
+  //     return false;
+  //   }
     
-  }
+  // }
 }
