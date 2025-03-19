@@ -83,7 +83,7 @@ public class AutoVisionCMD extends Command {
     }
       drivetrain.setControl(
       visionRequest.withVelocityX(forwardCommand*0.85)//forwardCommand
-              .withVelocityY(-lateralCommand*0.6)//-lateralCommand
+              .withVelocityY(-lateralCommand*0.75)//-lateralCommand
               .withRotationalRate(rotationCommand*0.5)//rotationCommand
       );
   }
