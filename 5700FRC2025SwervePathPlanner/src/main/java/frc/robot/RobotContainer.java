@@ -164,7 +164,7 @@ public class RobotContainer {
                         intake.runIntakeMotor(-0.2);
                         States.intakeState = IntakeState.NEUTRAL;
                     } else {
-                        //intake.runIntakeMotor(0); // Ensure the intake stops when RT is released
+                        intake.runIntakeMotor(0); // Ensure the intake stops when RT is released
                      }
                     }, intake)
             )
@@ -174,11 +174,14 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new ArmCommand(arm, 0.009),
                 new ElevatorCommand(elevator, 2.75), //3.13
-                new ConditionalCommand(
-                    new OuttakeCommand(intake, -0.2), // Run outtake if RT is pressed
-                    new InstantCommand(), // Do nothing if RT is not pressed
-                    () -> joystick.getRightTriggerAxis() > 0.5
-                )
+                new RunCommand(() -> {
+                    if (joystick.getRightTriggerAxis() > 0.5) {
+                        intake.runIntakeMotor(-0.2);
+                        States.intakeState = IntakeState.NEUTRAL;
+                    } else {
+                        intake.runIntakeMotor(0); // Ensure the intake stops when RT is released
+                     }
+                    }, intake)
             )
         );
 
@@ -186,11 +189,14 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new ArmCommand(arm, -0.04),
                 new ElevatorCommand(elevator, 5.79), //6.55
-                new ConditionalCommand(
-                    new OuttakeCommand(intake, -0.2), // Run outtake if RT is pressed
-                    new InstantCommand(), // Do nothing if RT is not pressed
-                    () -> joystick.getRightTriggerAxis() > 0.5
-                )
+                new RunCommand(() -> {
+                    if (joystick.getRightTriggerAxis() > 0.5) {
+                        intake.runIntakeMotor(-0.2);
+                        States.intakeState = IntakeState.NEUTRAL;
+                    } else {
+                        intake.runIntakeMotor(0); // Ensure the intake stops when RT is released
+                     }
+                    }, intake)
             )
         );
 
@@ -198,11 +204,14 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new ElevatorCommand(elevator, 7.7),
                 new ArmCommand(arm, -0.15),
-                new ConditionalCommand(
-                    new OuttakeCommand(intake, 0.5), // Run outtake if RT is pressed
-                    new InstantCommand(), // Do nothing if RT is not pressed
-                    () -> joystick.getRightTriggerAxis() > 0.5
-                )
+                new RunCommand(() -> {
+                    if (joystick.getRightTriggerAxis() > 0.5) {
+                        intake.runIntakeMotor(0.5);
+                        States.intakeState = IntakeState.NEUTRAL;
+                    } else {
+                        intake.runIntakeMotor(-0.2); // Ensure the intake stops when RT is released
+                     }
+                    }, intake)
             )  
         );
 
@@ -252,11 +261,14 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new ArmIntakeCommand(arm, 0.41),
                 new ElevatorCommand(elevator, 0),
-                new ConditionalCommand(
-                    new OuttakeCommand(intake, 0.25), // Run outtake if RT is pressed
-                    new InstantCommand(), // Do nothing if RT is not pressed
-                    () -> joystick.getRightTriggerAxis() > 0.5
-                )
+                new RunCommand(() -> {
+                    if (joystick.getRightTriggerAxis() > 0.5) {
+                        intake.runIntakeMotor(0.25);
+                        States.intakeState = IntakeState.NEUTRAL;
+                    } else {
+                        intake.runIntakeMotor(-0.2); // Ensure the intake stops when RT is released
+                     }
+                    }, intake)
             )
         );
 
