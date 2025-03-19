@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.generated.TunerConstants;
@@ -158,11 +159,14 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new ArmCommand(arm, 0.02),  
                 new ElevatorCommand(elevator, 0.72), //0.73
-                new ConditionalCommand(
-                    new OuttakeCommand(intake, -0.2), // Run outtake if RT is pressed
-                    new InstantCommand(), // Do nothing if RT is not pressed
-                    () -> joystick.getRightTriggerAxis() > 0.5
-                )
+                new RunCommand(() -> {
+                    if (joystick.getRightTriggerAxis() > 0.5) {
+                        intake.runIntakeMotor(-0.2);
+                        States.intakeState = IntakeState.NEUTRAL;
+                    } else {
+                        //intake.runIntakeMotor(0); // Ensure the intake stops when RT is released
+                     }
+                    }, intake)
             )
         );
  
@@ -231,7 +235,7 @@ public class RobotContainer {
         joystick.leftTrigger().whileTrue(
             new ParallelCommandGroup(
                 new ArmIntakeCommand(arm, 0.14),
-                new ElevatorCommand(elevator, 1.2),
+                new ElevatorCommand(elevator, 1.5),
                 new IntakeCommand(intake,0),
                 new VisionAlgae(
                     drivetrain, 
@@ -244,7 +248,7 @@ public class RobotContainer {
         );
 
         //Processor
-        joystick.start().onTrue(         
+        joystick.start().whileTrue(         
             new ParallelCommandGroup(
                 new ArmIntakeCommand(arm, 0.41),
                 new ElevatorCommand(elevator, 0),

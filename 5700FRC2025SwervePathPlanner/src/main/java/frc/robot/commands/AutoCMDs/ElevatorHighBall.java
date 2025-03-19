@@ -33,14 +33,14 @@ public class ElevatorHighBall extends Command {
 
     System.out.println("elevator L4 cmd");
     //elevatorSubsystem.setElevatorPosition(levelChoice);
-    elevatorSubsystem.setElevatorPosition(1.2);
+    elevatorSubsystem.setElevatorPosition(1.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //elevatorSubsystem.runElevator();
-    if(Math.abs(elevatorSubsystem.getElevatorPosition() - 1.2) < 0.2){
+    if(Math.abs(elevatorSubsystem.getElevatorPosition() - 1.5) < 0.2){
       killed = true;
     }
   }
