@@ -23,7 +23,7 @@ public class AutoVisionCMD extends Command {
 
   private final PIDController rotationPID = new PIDController(0.05,0,0); //tx
   private final PIDController forwardPID = new PIDController(2,0,0); //ty
-  private final PIDController lateralPID = new PIDController(2, 0, 0.01);
+  private final PIDController lateralPID = new PIDController(2.1, 0, 0.01);
 
 
   private final SwerveRequest.RobotCentric visionRequest = new SwerveRequest.RobotCentric()
@@ -83,7 +83,7 @@ public class AutoVisionCMD extends Command {
     }
       drivetrain.setControl(
       visionRequest.withVelocityX(forwardCommand*0.85)//forwardCommand
-              .withVelocityY(-lateralCommand*0.5)//-lateralCommand
+              .withVelocityY(-lateralCommand*0.6)//-lateralCommand
               .withRotationalRate(rotationCommand*0.5)//rotationCommand
       );
   }
