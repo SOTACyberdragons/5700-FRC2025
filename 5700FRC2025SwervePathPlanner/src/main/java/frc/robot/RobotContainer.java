@@ -276,20 +276,19 @@ public class RobotContainer {
         //joystick.rightTrigger().whileTrue(new OuttakeCommand(intake,0)); // ball outtake 1 is run coral
         
         /*Vision Buttons */
-        joystick.rightStick().whileTrue(new VisionMoveToTargetRight(
-            drivetrain, 
-            visionSubsystem,
-            () ->joystick.getLeftY(),
-            () ->-joystick.getLeftX(),
-            () ->-joystick.getRightX())
-        ); 
-        joystick.leftStick().whileTrue(new VisionMoveToTargetLeft(
+        joystick.rightStick().whileTrue(new VisionMoveToTargetLeft(
             drivetrain, 
             visionSubsystem,
             () ->-joystick.getLeftY(),
             () ->-joystick.getLeftX(),
             () ->-joystick.getRightX())
-
+        ); 
+        joystick.leftStick().whileTrue(new VisionMoveToTargetRight(
+            drivetrain, 
+            visionSubsystem,
+            () ->joystick.getLeftY(),
+            () ->-joystick.getLeftX(),
+            () ->-joystick.getRightX())
         ); 
 
         /*Old up command */

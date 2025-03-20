@@ -82,7 +82,7 @@ public class AutoVisionBall extends Command {
       rotationCommand = 0;
     }
       drivetrain.setControl(
-      visionRequest.withVelocityX(forwardCommand)//forwardCommand
+      visionRequest.withVelocityX(forwardCommand*0.9)//forwardCommand
               .withVelocityY(-lateralCommand)//-lateralCommand
               .withRotationalRate(rotationCommand*0.5)//rotationCommand
       );
