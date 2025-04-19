@@ -22,10 +22,10 @@ public class States {
     /////////////////////////////////
     //Elevator Slow Mode state
     public static enum ElevatorSlowMode{
-        LOW(0.5),
-        HIGH(0.5),
-        EXTREME(0.5),
-        NONE(0.8); 
+        LOW(0.15),
+        HIGH(0.15),
+        EXTREME(0.15),
+        NONE(0.15); 
 
         private final double speedFactor;
         ElevatorSlowMode(double speedFactor) {

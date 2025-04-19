@@ -48,8 +48,8 @@ public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
-    private final SlewRateLimiter xLimiter = new SlewRateLimiter(0.8); 
-    private final SlewRateLimiter yLimiter = new SlewRateLimiter(0.8); 
+    private final SlewRateLimiter xLimiter = new SlewRateLimiter(3); 
+    private final SlewRateLimiter yLimiter = new SlewRateLimiter(3); 
     private final SlewRateLimiter rotLimiter = new SlewRateLimiter(4); 
 
     /* Setting up bindings for necessary control of the swerve drive platform. */
